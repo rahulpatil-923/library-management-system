@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <%- include('navbar.ejs') %>
+    <div class="login-box text-center"> 
+    <h2>Login Page</h2>
+    <form  home="rel" action="/login"  method="post">
+      <input type="text" class="form-control" placeholder="Username" name="username" required>
+      <input type="password" class="form-control" placeholder="Password" name="password" required>
+      <button type="submit" class="btn btn-custom mt-2">Login</button>
+    </form>
+  </div>
+
+    
+</body>
+</html>
