@@ -4,6 +4,8 @@ logs/
 
 # Dependency directories
 node_modules/
+sql-queries/
+
 
 # Environment files
 .env
