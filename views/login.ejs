@@ -1,23 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    
-    <%- include('navbar.ejs') %>
-    <div class="login-box text-center"> 
-    <h2>Login Page</h2>
-    <form  home="rel" action="/login"  method="post">
-      <input type="text" class="form-control" placeholder="Username" name="username" required>
-      <input type="password" class="form-control" placeholder="Password" name="password" required>
-      <button type="submit" class="btn btn-custom mt-2">Login</button>
-    </form>
+   <%-include ('navbar') %>
+  <div class="container mt-5">
+    <div class="card p-4 mx-auto" style="max-width: 400px;">
+      <h3 class="text-center mb-3">Login Page</h3>
+
+      <form action="/login" method="post" autocomplete="off">
+        <div class="mb-3">
+          <input type="text" name="username" class="form-control" placeholder="Username" required>
+        </div>
+        <div class="mb-3">
+          <input type="password" name="password" class="form-control" placeholder="Password" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Login</button>
+      <% if (msg) { %>
+        <div class="mt-3 alert <%= msg.includes('successfully') ? 'alert-success' : 'alert-danger' %>">
+          <%= msg %>
+        </div>
+      <% } %>
+    </div>
   </div>
 
-    
 </body>
 </html>

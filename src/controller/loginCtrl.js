@@ -1,28 +1,19 @@
-// controller/loginCtrl.js
-
 const loginService = require('../service/loginService');
 
-// Show login page
 exports.loginCtrl = (req, res) => {
-  res.render("login.ejs"); // Make sure login.ejs exists
+  res.render("login", { msg: null });
 };
 
-// Handle login submission
 exports.postLogin = (req, res) => {
   const { username, password } = req.body;
 
   const user = loginService.logLogic(username, password);
 
   if (user) {
-    // If credentials are valid, show success message or redirect
-    res.json({
-      message: "Login successful!",
-      user: {
-        username: user.username
-      }
-    });
+    // Redirect to admin dashboard if login is successful
+    res.redirect('/adminDashboard');
   } else {
-    // If credentials are invalid
-    res.status(401).json({ message: "Invalid username or password" });
+    // Reload login page with error message
+    res.render("login", { msg: "❌ Invalid username or password." });
   }
 };
