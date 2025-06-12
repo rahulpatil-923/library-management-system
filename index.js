@@ -1,25 +1,27 @@
-require("dotenv").config(); // Load environment variables from .env
-const express = require("express");
-const db = require("./src/config/db"); // Import DB connection
+// const app = require("./src/app.js");
+// const db = require("./src/config/db.js");
 
-const app = express();
+// // Start server
+// const PORT = process.env.PORT || 3000;
+// app.listen(PORT, () => {
+//   console.log(`Server running at http://localhost:${PORT}`);
+// });
+// index.js: Entry point for LMS application
+
+require("dotenv").config();
+const conn = require("./src/config/db");
+const app = require("./src/app");
+
 const PORT = process.env.PORT || 3000;
 
-// Middleware and routes here...
-
-app.get("/", (req, res) => {
-  res.send("Hello Rahul!");
-});
-
-// Start server ONLY after DB connection is established
-db.connect((err) => {
-  if (err) {
-    console.error("Failed to connect to database:", err);
-    process.exit(1); // Stop the server if DB connection fails
-  } else {
-    console.log("Database connected successfully");
+// Connect to MongoDB, then start the server
+conn()
+  .then(() => {
     app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
+      console.log(`Server is running on http://localhost:${PORT}`);
     });
-  }
-});
+  })
+  .catch((err) => {
+    console.error("Failed to connect to DB:", err);
+    process.exit(1);
+  });
