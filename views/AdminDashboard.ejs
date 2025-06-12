@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+ 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin Dashboard</title>
@@ -69,6 +70,7 @@
   </style>
 </head>
 <body>
+  <%- include('navbar.ejs') %>
   <div class="d-flex">
     <div class="sidebar">
       <h4>Admin Dashboard</h4>
@@ -97,12 +99,58 @@
         </ul>
       </div>
     </div>
+<div class="main-content container py-4">
+  <h2 class="mb-3">Welcome, Admin 👋</h2>
+  <p class="mb-4">Use the sidebar to manage students, book categories, and book records efficiently.</p>
 
-    <div class="main-content">
-      <h2>Welcome, Admin 👋</h2>
-      <p>Click on the sidebar menus to manage Students, Categories, and Books.</p>
+  <div class="row">
+    <!-- Students Section -->
+    <div class="col-md-4 mb-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h5 class="card-title">Manage Students</h5>
+          <p class="card-text">Add, update, view, or delete student records. Maintain accurate student data easily.</p>
+          <a href="/students" class="btn btn-primary">Go to Students</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Categories Section -->
+    <div class="col-md-4 mb-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h5 class="card-title">Manage Categories</h5>
+          <p class="card-text">Create and organize book categories to streamline library organization.</p>
+          <a href="/categories" class="btn btn-warning">Go to Categories</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Books Section -->
+    <div class="col-md-4 mb-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h5 class="card-title">Manage Books</h5>
+          <p class="card-text">Add new books, update existing ones, or remove books that are no longer available.</p>
+          <a href="/books" class="btn btn-success">Go to Books</a>
+        </div>
+      </div>
     </div>
   </div>
+
+  <!-- Summary or Stats (optional) -->
+  <div class="card mt-4 shadow-sm">
+    <div class="card-body">
+      <h5 class="card-title">Quick Summary</h5>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">📚 Total Books: <strong></strong></li>
+        <li class="list-group-item">👥 Total Students: <strong></strong></li>
+        <li class="list-group-item">📂 Categories Available: <strong></strong></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
 
   <script>
     function toggleMenu(id) {
