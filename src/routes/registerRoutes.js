@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const registerController = require('../controller/registerController');
 
-// Show Add Student form
-router.get('/add-student', registerController.showRegisterForm);
+// Render Add Student Form
+router.get('/addStudent', registerController.renderAddStudent);
 
-// Handle Add Student form submission
-router.post('/add-student', registerController.registerStudent);
+// Handle form submission
+router.post('/student/add', registerController.handleAddStudent);
 
 module.exports = router;
