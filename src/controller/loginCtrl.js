@@ -5,6 +5,7 @@ exports.loginCtrl = (req, res) => {
 };
 
 exports.postLogin = (req, res) => {
+
   let { username, password } = req.body;
 
   if (!username || !password) {
