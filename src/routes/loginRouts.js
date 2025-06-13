@@ -1,16 +1,14 @@
-let routes=require("express");
-let navbarCtrl=require("../controller/navbarCtrl.js");
-let loginCtrl=require("../controller/loginCtrl.js");
+let express = require("express");
+let loginCtrl = require("../controller/loginCtrl.js");
+let router = express.Router();
 
 
-let router=routes.Router();
-
-router.get("/",navbarCtrl.navbarCtrl);
-
-
-router.get("/login",loginCtrl.loginCtrl);
-router.post('/login', loginCtrl.postLogin);
+router.get("/", (req, res) => {
+  res.render("homepage");
+});
 
 
+router.get("/login", loginCtrl.loginCtrl);
+router.post("/login", loginCtrl.postLogin);
 
-module.exports=router;
+module.exports = router;

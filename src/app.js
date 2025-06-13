@@ -22,6 +22,7 @@ app.use("/user", viewStudentRoutes);
 app.use("/categories", categoryRoutes);
 app.use("/books", bookRoutes);
 
+app.use("/register", registerRouter);
 app.get("/adminDashboard", (req, res) => {
   res.render("adminDashboard");
 });
