@@ -5,7 +5,8 @@ let router = require("../src/routes/loginRouts.js");
 let adminRouter = require("../src/routes/AdminRouts.js");
 let userRoutes = require("./routes/userRoutes.js");
 let viewStudentRoutes = require("./routes/viewStudentRoutes.js");
-
+let categoryRoutes = require("./routes/categoryRoutes.js");
+let bookRoutes = require("./routes/bookRoutes.js");
 let conn = require("../src/config/db.js");
 
 app.use(bodyparser.urlencoded({ extended: true }));
@@ -18,6 +19,8 @@ app.use("/admin", adminRouter);
 
 app.use("/user", userRoutes);
 app.use("/user", viewStudentRoutes);
+app.use("/categories", categoryRoutes);
+app.use("/books", bookRoutes);
 
 app.use("/register", registerRouter);
 app.get("/adminDashboard", (req, res) => {
