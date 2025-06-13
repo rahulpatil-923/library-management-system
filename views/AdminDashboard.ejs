@@ -1,117 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin Dashboard</title>
-
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <!-- Your Custom CSS -->
-  <link rel="stylesheet" href="/css/style.css" />
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-  <style>
-    .main-content {
-      flex-grow: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background-color: #f0f2f5;
-    }
-
-    .dashboard-container {
-      background: white;
-      padding: 40px;
-      border-radius: 15px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      width: 100%;
-      max-width: 500px;
-    }
-
-    .sidebar {
-      width: 250px;
-      background-color: #343a40;
-      color: white;
-      height: 100vh;
-    }
-
-    .submenu {
-      list-style: none;
-      padding-left: 20px;
-      display: none;
-    }
-
-    .submenu li {
-      margin: 5px 0;
-    }
-
-    .submenu li a {
-      color: white;
-      text-decoration: none;
-    }
-
-    .menu-section h5 {
-      cursor: pointer;
-      margin-top: 20px;
-    }
-
-    .menu-section h5:hover {
-      color: #ffc107;
-    }
-  </style>
-</head>
-<body>
-  <!-- Navbar -->
-  <%- include('navbar') %>
-
-  <div class="dashboard-wrapper d-flex">
-    <!-- Sidebar -->
-    <aside class="sidebar p-4">
-      <h4 class="text-white mb-4">Admin Dashboard</h4>
-
-      <div class="menu-section">
-        <h5 onclick="toggleMenu('studentMenu')">👨‍🎓 Student</h5>
-        <ul id="studentMenu" class="submenu">
-          <li><a href="/addStudent">Add Student</a></li>
-          <li><a href="/viewStudents">View Students</a></li>
-        </ul>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <%- include('navbar') %>
+    <div class="d-flex">
+      <%- include('sidebar') %>
+      <div class="main-content">
+        <h2>Welcome, Admin 👋</h2>
+        <p>
+          Click on the sidebar menus to manage Students, Categories, and Books.
+        </p>
       </div>
-
-      <div class="menu-section">
-        <h5 onclick="toggleMenu('categoryMenu')">📚 Category</h5>
-        <ul id="categoryMenu" class="submenu">
-          <li><a href="/addCategory">Add Category</a></li>
-          <li><a href="/viewCategories">View Categories</a></li>
-        </ul>
-      </div>
-
-      <div class="menu-section">
-        <h5 onclick="toggleMenu('bookMenu')">📖 Book</h5>
-        <ul id="bookMenu" class="submenu">
-          <li><a href="/addBook">Add Book</a></li>
-          <li><a href="/viewBooks">View Books</a></li>
-        </ul>
-      </div>
-    </aside>
-
-    <!-- Main Content Area -->
-    <main class="main-content">
-      <div class="dashboard-container">
-        <h2 class="mb-3">Welcome to Admin Dashboard</h2>
-        <p class="lead">Manage Students, Books, and more.</p>
-      </div>
-    </main>
-  </div>
-
-  <script>
-    function toggleMenu(id) {
-      const menu = document.getElementById(id);
-      menu.style.display = menu.style.display === "block" ? "none" : "block";
-    }
-  </script>
-</body>
+    </div>
+  </body>
 </html>

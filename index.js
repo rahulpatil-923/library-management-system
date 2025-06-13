@@ -1,7 +1,8 @@
-const app = require("./src/app.js");
 
-const port = 3000;
+let app = require("./src/app.js");
 
-app.listen(port, () => {
+let port = 4000;
+
+app.listen(port, (req, res) => {
   console.log("server started at port:" + port);
 });

@@ -4,6 +4,7 @@ exports.loginCtrl = (req, res) => {
   res.render("login", { msg: null });
 };
 exports.postLogin = (req, res) => {
+
   let { username, password } = req.body;
 
   if (!username || !password) {
