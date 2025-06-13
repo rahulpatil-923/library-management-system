@@ -19,6 +19,7 @@ app.use("/admin", adminRouter);
 app.use("/user", userRoutes);
 app.use("/user", viewStudentRoutes);
 
+app.use("/register", registerRouter);
 app.get("/adminDashboard", (req, res) => {
   res.render("adminDashboard");
 });

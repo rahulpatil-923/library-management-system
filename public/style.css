@@ -1,3 +1,4 @@
+
 /* ===================== */
 /* Reset & Base          */
 /* ===================== */
@@ -300,5 +301,6 @@ body::before {
   .reg-student-form-container {
     padding: 20px 10px;
     margin-top: 20px;
+
   }
 }
