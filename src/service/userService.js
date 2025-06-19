@@ -2,8 +2,7 @@ const db = require("../config/db");
 
 exports.addUser = ({ name, email, password, role }) => {
   return new Promise((resolve, reject) => {
-    const sql =
-      "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)";
+    const sql = "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)";
     db.query(sql, [name, email, password, role], (err, result) => {
       if (err) return reject(err);
       resolve(result);
@@ -13,7 +12,7 @@ exports.addUser = ({ name, email, password, role }) => {
 
 exports.getAllStudents = () => {
   return new Promise((resolve, reject) => {
-    db.query("SELECT * FROM users WHERE role ", (err, results) => {
+    db.query("SELECT * FROM users WHERE role", (err, results) => {
       if (err) return reject(err);
       resolve(results);
     });
@@ -22,18 +21,21 @@ exports.getAllStudents = () => {
 
 exports.getAllStudentsPaginated = ({ query, limit, offset }) => {
   return new Promise((resolve, reject) => {
-    let sql = "SELECT SQL_CALC_FOUND_ROWS * FROM users WHERE role";
+    let sql = "SELECT SQL_CALC_FOUND_ROWS id, name, email, role, created_at FROM users WHERE role";
     let params = [];
+
     if (query) {
-      sql +=
-        " AND (name LIKE ? OR email LIKE ? OR password LIKE ? OR role LIKE ?)";
+      sql += " AND (name LIKE ? OR email LIKE ? OR role LIKE ?)";
       const likeQuery = `%${query}%`;
-      params.push(likeQuery, likeQuery, likeQuery, likeQuery);
+      params.push(likeQuery, likeQuery, likeQuery);
     }
+
     sql += " LIMIT ? OFFSET ?";
     params.push(Number(limit), Number(offset));
+
     db.query(sql, params, (err, results) => {
       if (err) return reject(err);
+
       db.query("SELECT FOUND_ROWS() as total", (err2, totalRows) => {
         if (err2) return reject(err2);
         resolve({ students: results, total: totalRows[0].total });

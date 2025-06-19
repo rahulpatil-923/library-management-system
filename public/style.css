@@ -1,4 +1,3 @@
-
 /* ===================== */
 /* Reset & Base          */
 /* ===================== */
@@ -13,6 +12,110 @@ body {
   height: 100%;
   width: 100%;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Common page background */
+.col-md-9 {
+  background: #2393cb;
+  min-height: 100vh;
+  padding: 30px 15px;  /* Reduced horizontal padding to allow wider tables */
+}
+
+/* Table Styles */
+.table-container {
+  width: 100%;  /* Using full width */
+  margin: 0 auto;
+  background: #2393cb;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table, .student-table, .book-table {
+  width: 100%;
+  min-width: 1400px;  /* Increased minimum width */
+  margin-bottom: 0;
+  background: #fff;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td,
+.student-table th,
+.student-table td,
+.book-table th,
+.book-table td {
+  padding: 15px 25px;  /* Increased cell padding */
+  text-align: center;
+  border: 1px solid #dee2e6;
+}
+
+.table th,
+.student-table th,
+.book-table th,
+thead.table-dark th {
+  background: #212529;
+  color: white;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* Increase column widths */
+.table td:nth-child(1),
+.student-table td:nth-child(1),
+.book-table td:nth-child(1) {
+  width: 100px;  /* Increased Sr. No column width */
+}
+
+.table td:nth-child(2),
+.student-table td:nth-child(2),
+.book-table td:nth-child(2) {
+  min-width: 250px; /* Increased Name/Title column width */
+}
+
+.table td:nth-child(3),
+.student-table td:nth-child(3),
+.book-table td:nth-child(3) {
+  min-width: 300px; /* Increased Email/Author column width */
+}
+
+/* Action buttons spacing */
+.table td:last-child,
+.student-table td:last-child,
+.book-table td:last-child {
+  min-width: 180px; /* Increased action column width */
+}
+
+/* Make sure all cells have minimum width */
+.table td,
+.student-table td,
+.book-table td {
+  min-width: 150px; /* Minimum width for all other columns */
+}
+
+/* Scrollbar Styling */
+.table-container::-webkit-scrollbar {
+  width: 10px;  /* Slightly larger scrollbar */
+  height: 10px;
+}
+
+.table-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
 /* ===================== */
@@ -59,7 +162,7 @@ body {
 /* ===================== */
 /* Background + Overlay  */
 /* ===================== */
-body {
+.homepage-background {
   background-image: url("https://cdn.pixabay.com/photo/2014/08/08/21/03/bookshelf-413705_1280.jpg");
   background-size: cover;
   background-position: center;
@@ -69,7 +172,7 @@ body {
   min-height: 100vh;
 }
 
-body::before {
+.homepage-background::before {
   content: "";
   position: fixed;
   top: 0;
@@ -99,53 +202,31 @@ body::before {
 /* ===================== */
 /* Centered Login Box    */
 /* ===================== */
-.login-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: calc(100vh - 70px);
-  padding: 20px;
-}
 
-.login-box {
-  width: 500px;
-  background-color: rgba(255, 255, 255, 0.95);
-  padding: 50px 40px;
-  border-radius: 15px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+.login-card {
+     background: #2393cb;
+    padding: 24px 20px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 614px;
+    min-height: 44%;
+}
+.login-card h3 {
   text-align: center;
-}
-
-.login-box h2 {
-  font-weight: bold;
   margin-bottom: 30px;
-  color: #212529;
+  font-weight: bold;
+  color: #333;
 }
 
-.login-box .form-control {
-  border: 2px solid #000;
-  border-radius: 0;
-  margin-bottom: 20px;
+.login-card .form-control {
   height: 45px;
   font-size: 16px;
 }
 
-.btn-custom {
-  border: 2px solid #000;
-  background-color: #fff;
-  color: #000;
-  width: 100%;
+.login-card .btn {
+  height: 45px;
   font-weight: bold;
-  font-size: 16px;
-  padding: 10px 0;
-  transition: all 0.3s ease-in-out;
-  border-radius: 5px;
-}
-
-.btn-custom:hover {
-  background-color: #6c63ff;
-  color: #fff;
-  border-color: #6c63ff;
 }
 
 /* ===================== */
@@ -157,6 +238,7 @@ body::before {
   min-height: 100vh;
   padding: 20px 0 20px 20px;
   border-right: 2px solid #ffc107;
+  
   width: 250px;
 }
 .sidebar h4 {
@@ -181,7 +263,7 @@ body::before {
   color: #ffc107;
 }
 .sidebar ul {
-  list-style: none;
+  list-style:decimal;
   padding-left: 20px;
   margin-bottom: 0;
   display: none;
@@ -190,6 +272,7 @@ body::before {
 .sidebar ul.active {
   display: block;
   animation: fadeIn 0.3s;
+
 }
 @keyframes fadeIn {
   from {
@@ -201,16 +284,18 @@ body::before {
 }
 .sidebar ul li {
   margin-bottom: 10px;
+ 
 }
 .sidebar ul li a {
-  color: #adb5bd;
+  color: #fbfaf7;
   text-decoration: none;
   font-size: 1rem;
   transition: color 0.2s;
   padding-left: 5px;
 }
 .sidebar ul li a:hover {
-  color: #17a2b8;
+  color: #6c7249;
+
   text-decoration: underline;
 }
 
@@ -219,20 +304,21 @@ body::before {
 /* ===================== */
 .container-fluid {
   /* background: rgba(255, 255, 255, 0.95); */
+    background: #2393cb;
   border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 16px rgba(121, 133, 32, 0.1);
   margin-right: 25px;
   /* padding: 40px 30px; */
 }
 
 .container-fluid h3 {
-  color: white;
+  color: rgb(8, 8, 8);
   font-weight: bold;
 }
 
 .container-fluid .form-control,
 .container-fluid .form-select {
-  border: 2px solid gold;
+  border: 1px solid #000;
   border-radius: 5px;
   margin-bottom: 20px;
   height: 45px;
@@ -240,22 +326,22 @@ body::before {
 }
 
 .container-fluid .btn {
-  border: 2px solid gold;
-  /* background-color: #fff; */
-  color: white;
+  border: 2px solid #000;
+  background-color: rgb(48, 149, 156);
+  color: #000;
   font-weight: bold;
-  width: 400px;
+  width:200px;
   font-size: 16px;
-  margin-left: 25%;
+  margin-left: 15%;
   padding: 10px 0;
   border-radius: 5px;
   transition: all 0.3s;
 }
 
 .container-fluid .btn:hover {
-  background-color: #6c63ff;
+  background-color: #000;
   color: #fff;
-  border-color: #6c63ff;
+  border-color: #000;
 }
 
 /* ===================== */
@@ -267,7 +353,7 @@ body::before {
   min-height: 400px;
 }
 .main-content h2 {
-  color: white;
+  color: rgb(18, 17, 17);
   font-weight: bold;
   margin-bottom: 20px;
 }
@@ -280,6 +366,157 @@ body::before {
     margin: 20px 5px;
     padding: 20px 10px;
   }
+}
+
+/* ===================== */
+/* Admin Dashboard       */
+/* ===================== */
+.admin-dashboard {
+   background-color: #5f6264;
+  min-height: 100vh;
+  color: rgb(7, 7, 7);
+}
+
+.admin-dashboard .main-content {
+  padding: 2rem;
+  margin-left: 250px;
+   background-color: #5f6264;
+  min-height: 100vh;
+}
+
+.admin-dashboard h2 {
+  color: white;
+  margin-bottom: 1.5rem;
+}
+
+.admin-dashboard p {
+  color: #e2e2e2;
+}
+
+/* Sidebar styling */
+.sidebar {
+  width: 250px;
+  background-color: #2d3436;
+  min-height: 100vh;
+  padding-top: 2rem;
+  border-right: 2px solid #ffc107;
+  position: fixed;
+}
+
+
+
+.admin-title {
+  color: #ffc107;
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #ffc107;
+}
+
+/* ===================== */
+/* Welcome message container */
+/* ===================== */
+.welcome-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+ 
+  text-align: center;
+  padding: 2rem;
+}
+
+.welcome-container h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  color: #ffc107;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  font-weight: bold;
+}
+
+.welcome-container p {
+  font-size: 1.2rem;
+  color: #fff;
+  max-width: 600px;
+  line-height: 1.6;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid #ffc107;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 1rem;
+}
+
+/* ===================== */
+/* Admin Dashboard Left Alignment */
+/* ===================== */
+.welcome-admin {
+  text-align: left;
+  padding: 0;
+}
+
+.welcome-admin h2 {
+  font-size: 1.8rem;
+  color: #f8f8f8;
+  margin: 0;
+}
+
+.welcome-admin p {
+  font-size: 1rem;
+  margin-top: 1rem;
+}
+
+/* Reset container centering for dashboard */
+.admin-page .container-fluid {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+.admin-page .col-md-9 {
+  margin: 0;
+  padding-left: 2rem;
+}
+
+/* ===================== */
+/* Layout & Containers    */
+/* ===================== */
+.container-fluid {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.col-md-9 {
+  margin: 0 auto;
+  float: none;
+  padding: 2rem;
+}
+
+/* Center align forms and tables */
+.table-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+form.d-flex {
+  max-width: 500px;
+  margin: 0 auto 1.5rem auto;
+}
+
+/* Center align headings */
+h2.mb-4 {
+  text-align: center;
+  margin-bottom: 2rem !important;
+}
+
+/* Category table styles */
+.table {
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-radius: 8px;
 }
 
 /* ===================== */
@@ -303,4 +540,43 @@ body::before {
     margin-top: 20px;
 
   }
+}
+
+/* ===================== */
+/* Admin Dashboard        */
+/* ===================== */
+.admin-content {
+  padding: 30px;
+  background: #2393cb;
+  color:#dee2e6
+  min-height: 100vh;
+}
+
+.welcome-section {
+  text-align: left;
+  margin-top: 10px;
+}
+
+.welcome-section h2 {
+  color: #f1f2f4;
+  font-size: 30px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.welcome-section p {
+  color: #f6f8fa;
+  font-size: 23px;
+  line-height: 1.5;
+}
+
+/* Container resets for admin */
+.container-fluid {
+  padding: 0 !important;
+  margin: 0 !important;
+  max-width: none !important;
+}
+
+.row.g-0 {
+  margin: 0;
 }

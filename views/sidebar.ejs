@@ -19,8 +19,20 @@
     <ul id="bookMenu">
       <li><a href="/books/add">Add Book</a></li>
       <li><a href="/books/view">View Books</a></li>
+      <br>
+      <br>
+        
     </ul>
   </div>
+
+  <!-- Issued Books Dropdown -->
+<div class="dropdown">
+  <button class="dropdown-btn" onclick="toggleDropdown(this)">📤 Issued book</button>
+  <ul class="dropdown-content">
+    <li><a href="/issues/view">View Issued Books</a></li>
+  </ul>
+</div>
+
 </div>
 <script>
   function toggleMenu(id) {

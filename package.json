@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "body": "^5.1.0",
     "body-parser": "^2.2.0",
     "cookie": "^1.0.2",
@@ -16,16 +17,18 @@
     "dotenv": "^16.5.0",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
-
-    "multer": "^2.0.1",
-
     "express-ejs-layouts": "^2.5.1",
-
+    "multer": "^2.0.1",
     "mysql2": "^3.14.1",
     "parser": "^0.1.4",
     "session": "^0.1.0"
   },
+  
+  
+
+
   "repository": {
+   
     "type": "git",
     "url": "git+https://github.com/rahulpatil-923/library-management-system.git"
   },

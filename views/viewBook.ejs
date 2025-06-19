@@ -10,80 +10,126 @@
     />
     <link rel="stylesheet" href="/style.css" />
     <style>
-      .btn-warning {
-        padding: 0.2rem 0.5rem; /* Minimized padding */
+      .content-wrapper {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
       }
-      .col-md-9 {
-        margin-left: 0; /* Removed margin between sidebar and table */
+      .search-form {
+        max-width: 400px;
+        margin-bottom: 2rem;
+      }
+      .table-container {
+        background: #fff;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        margin-bottom: 2rem;
+      }
+      .book-table {
+        width: 100%;
+        min-width: 1200px;
+        margin-bottom: 0;
+      }
+      .book-table th,
+      .book-table td {
+        padding: 12px 15px;
+        text-align: center;
+        border: 1px solid #dee2e6;
+      }
+      .book-table th {
+        background: #212529;
+        color: white;
+        font-weight: 500;
+        white-space: nowrap;
+      }
+      .book-table td {
+        background: white;
+      }
+      .book-image {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 4px;
+      }
+      .action-btn {
+        min-width: 100px;
       }
     </style>
   </head>
   <body>
-    <%- include('navbar') %>
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-3 p-0"><%- include('sidebar') %></div>
         <div class="col-md-9">
-          <h2 class="mb-4 text-light">All Books</h2>
-          <div class="table-responsive">
-            <table class="table table-bordered table-striped bg-white">
-              <thead class="table-dark">
-                <tr>
-                  <th>#</th>
-                  <th>Title</th>
-                  <th>Author</th>
-                  <th>Publisher</th>
-                  <th>ISBN</th>
-                  <th>Category</th>
-                  <th>Total Copies</th>
-                  <th>Available Copies</th>
-                  <th>Status</th>
-                  <th>Image</th>
-                  <th>Added On</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% if (books && books.length > 0) { %> <%
-                books.forEach(function(book, idx) { %>
-                <tr>
-                  <td><%= idx + 1 %></td>
-                  <td><%= book.title %></td>
-                  <td><%= book.author %></td>
-                  <td><%= book.publisher %></td>
-                  <td><%= book.isbn %></td>
-                  <td><%= book.category %></td>
-                  <td><%= book.total_copies %></td>
-                  <td><%= book.available_copies %></td>
-                  <td><%= book.status %></td>
-                  <td>
-                    <% if (book.image) { %>
-                    <img
-                      src="/<%= book.image %>"
-                      alt="Book Image"
-                      style="width: 60px; height: 60px; object-fit: cover"
-                    />
-                    <% } else { %> N/A <% } %>
-                  </td>
-                  <td>
-                    <%= book.created_at ?
-                    book.created_at.toISOString().slice(0,10) : '' %>
-                  </td>
-                  <td>
-                    <a
-                      href="/books/update/<%= book.id %>"
-                      class="btn ms-1 btn-warning px-1"
-                      >Update</a
-                    >
-                  </td>
-                </tr>
-                <% }) %> <% } else { %>
-                <tr>
-                  <td colspan="12">No books found.</td>
-                </tr>
-                <% } %>
-              </tbody>
-            </table>
+          <div class="content-wrapper">
+            <h4 class="mb-4">All Books</h4>
+            
+            <form class="search-form d-flex" method="get" action="/books/view">
+              <input
+                type="text"
+                name="q"
+                class="form-control me-2"
+                placeholder="Search books..."
+                value="<%= typeof query !== 'undefined' ? query : '' %>"
+              />
+              <button class="btn btn-outline-primary" type="submit">Search</button>
+            </form>
+
+            <div class="table-container">
+              <div class="table-responsive">
+                <table class="book-table">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Title</th>
+                      <th>Author</th>
+                      <th>Publisher</th>
+                      <th>ISBN</th>
+                      <th>Category</th>
+                      <th>Total Copies</th>
+                      <th>Available Copies</th>
+                      <th>Status</th>
+                      <th>Image</th>
+                      <th>Added On</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% if (typeof books !== 'undefined' && books.length > 0) { %>
+                      <% books.forEach(function(book, idx) { %>
+                        <tr>
+                          <td><%= idx + 1 %></td>
+                          <td><%= book.title %></td>
+                          <td><%= book.author %></td>
+                          <td><%= book.publisher %></td>
+                          <td><%= book.isbn %></td>
+                          <td><%= book.category %></td>
+                          <td><%= book.total_copies %></td>
+                          <td><%= book.available_copies %></td>
+                          <td><%= book.status %></td>
+                          <td>
+                            <% if (book.image) { %>
+                              <img src="/<%= book.image %>" alt="Book Image" class="book-image" />
+                            <% } else { %>
+                              N/A
+                            <% } %>
+                          </td>
+                          <td><%= book.created_at ? book.created_at.toISOString().slice(0,10) : '' %></td>
+                          <td>
+                            <a href="/books/update/<%= book.id %>" class="btn btn-warning btn-sm action-btn">Update</a>
+                          </td>
+                        </tr>
+                      <% }) %>
+                    <% } else { %>
+                      <tr>
+                        <td colspan="12" class="text-center">No books found.</td>
+                      </tr>
+                    <% } %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
       </div>

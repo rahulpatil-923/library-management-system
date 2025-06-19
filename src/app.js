@@ -8,6 +8,10 @@ let viewStudentRoutes = require("./routes/viewStudentRoutes.js");
 let categoryRoutes = require("./routes/categoryRoutes.js");
 let bookRoutes = require("./routes/bookRoutes.js");
 let conn = require("../src/config/db.js");
+let registerRouter = require("./routes/registerRoutes.js");
+
+const issueBookRoutes = require('./routes/issuBookRoutes');
+
 
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(bodyparser.json());
@@ -16,6 +20,10 @@ app.use(express.static("public"));
 
 app.use("/", router);
 app.use("/admin", adminRouter);
+
+const loginRoutes = require('./routes/loginRouts');
+app.use('/', loginRoutes);
+
 
 app.use("/user", userRoutes);
 app.use("/user", viewStudentRoutes);
@@ -26,5 +34,9 @@ app.use("/register", registerRouter);
 app.get("/adminDashboard", (req, res) => {
   res.render("adminDashboard");
 });
+
+app.use('/admin/issueBookRoutes', issueBookRoutes);  // prefix path matches sidebar
+
+
 
 module.exports = app;
