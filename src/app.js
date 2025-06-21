@@ -1,42 +1,49 @@
-let express = require("express");
-let app = express();
-let bodyparser = require("body-parser");
-let router = require("../src/routes/loginRouts.js");
-let adminRouter = require("../src/routes/AdminRouts.js");
-let userRoutes = require("./routes/userRoutes.js");
-let viewStudentRoutes = require("./routes/viewStudentRoutes.js");
-let categoryRoutes = require("./routes/categoryRoutes.js");
-let bookRoutes = require("./routes/bookRoutes.js");
-let conn = require("../src/config/db.js");
-let registerRouter = require("./routes/registerRoutes.js");
+const express = require("express");
+const app = express();
+const bodyParser = require("body-parser");
+const path = require("path");
 
-const issueBookRoutes = require('./routes/issuBookRoutes');
+// Routers
+const loginRoutes = require("./routes/loginRouts");
+const adminRoutes = require("./routes/AdminRouts");
+const userRoutes = require("./routes/userRoutes");
+const viewStudentRoutes = require("./routes/viewStudentRoutes");
+const categoryRoutes = require("./routes/categoryRoutes");
+const bookRoutes = require("./routes/bookRoutes");
+const registerRoutes = require("./routes/registerRoutes");
+const issueBookRoutes = require("./routes/issuBookRoutes");
+const returnRoutes = require('./routes/returnRoutes');
 
-
-app.use(bodyparser.urlencoded({ extended: true }));
-app.use(bodyparser.json());
+// Middleware
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.set("view engine", "ejs");
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "../public")));
 
-app.use("/", router);
-app.use("/admin", adminRouter);
-
-const loginRoutes = require('./routes/loginRouts');
-app.use('/', loginRoutes);
-
-
+// Routes
+app.use("/", loginRoutes);
+app.use("/admin", adminRoutes);
 app.use("/user", userRoutes);
-app.use("/user", viewStudentRoutes);
-app.use("/categories", categoryRoutes);
-app.use("/books", bookRoutes);
+app.use("/user/view", viewStudentRoutes);
 
-app.use("/register", registerRouter);
+app.use("/categories", categoryRoutes);
+
+app.use("/books", bookRoutes);
+app.use("/register", registerRoutes);
+
+app.use("/issueBook",issueBookRoutes)
+app.use("/issued-books", issueBookRoutes);
+app.use("/returned-books", issueBookRoutes); 
+
+
+app.use("/",issueBookRoutes)
+app.use("/",issueBookRoutes);
+app.use("/", returnRoutes);
+
+
+
 app.get("/adminDashboard", (req, res) => {
   res.render("adminDashboard");
 });
-
-app.use('/admin/issueBookRoutes', issueBookRoutes);  // prefix path matches sidebar
-
-
 
 module.exports = app;

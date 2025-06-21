@@ -1,57 +1,87 @@
+// src/controller/categoryController.js
 const categoryService = require("../service/categoryService");
 
-exports.showAddForm = (req, res) => {
-  res.render("addCategories", { msg: null });
-};
-
-exports.addCategory = (req, res) => {
-  const { name } = req.body;
-  categoryService.addCategory(name, (err, result) => {
-    if (err) {
-      let msg = "Category already exists or error occurred.";
-      return res.render("addCategories", { msg });
-    }
-    res.render("addCategories", { msg: "Category added successfully!" });
-  });
-};
-
-// ✅ View + Search
 exports.getAllCategories = async (req, res) => {
   try {
     const query = req.query.q ? req.query.q.trim() : "";
-    const categories = await categoryService.searchCategories(query);
-    res.render("viewCategories", { categories, query });
+    const page = parseInt(req.query.page) || 1;
+    const limit = 5;
+
+    const categories = await categoryService.getCategoriesWithSearch(query, page, limit);
+
+    res.render("viewCategories", {
+      categories,
+      query,
+      currentPage: page,
+      prevPage: page > 1 ? page - 1 : null,
+      nextPage: page + 1,
+      error: null
+    });
   } catch (err) {
-    res.status(500).send("Error fetching categories");
+    console.error("Error fetching categories:", err);
+    res.render("viewCategories", {
+      categories: [],
+      query: req.query.q || "",
+      currentPage: 1,
+      prevPage: null,
+      nextPage: 2,
+      error: err.message || "Error fetching categories"
+    });
   }
 };
 
-// ✅ Edit Form
-exports.editCategoryForm = async (req, res) => {
+exports.showAddForm = (req, res) => {
+  res.render("addCategory");
+};
+
+exports.addCategory = async (req, res) => {
   try {
-    const category = await categoryService.getCategoryById(req.params.id);
-    res.render("editCategory", { category, msg: null });
+    const { name } = req.body;
+    await categoryService.addCategory(name);
+    res.redirect("/categories/view");
   } catch (err) {
-    res.status(500).send("Error loading category");
+    console.error("Error adding category:", err);
+    res.status(500).send("Error adding category");
   }
 };
-
-// ✅ Handle update
 exports.updateCategory = async (req, res) => {
   try {
-    await categoryService.updateCategory(req.params.id, req.body.name);
-    res.redirect("/categories/view");
+    const { name } = req.body;
+    const category = await Category.findByPk(req.params.id);
+    if (!category) {
+      return res.render('editCategory', { category: {}, msg: 'Category not found' });
+    }
+
+    category.name = name;
+    await category.save();
+
+    res.redirect('/categories/view');
   } catch (err) {
-    res.status(500).send("Error updating category");
+    console.error(err);
+    res.render('editCategory', { category: req.body, msg: 'Error updating category' });
+  }
+};
+exports.editCategoryForm = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const category = await categoryService.getCategoryById(id);
+    if (!category) {
+      return res.status(404).send("Category not found");
+    }
+    res.render("editCategory", { category, msg: null });
+  } catch (err) {
+    console.error("Error loading edit category form:", err);
+    res.status(500).send("Server Error");
   }
 };
 
-// ✅ Handle delete
 exports.deleteCategory = async (req, res) => {
   try {
-    await categoryService.deleteCategory(req.params.id);
+    const id = req.params.id;
+    await categoryService.deleteCategory(id);
     res.redirect("/categories/view");
   } catch (err) {
-    res.status(500).send("Error deleting category");
+    console.error("Error deleting category:", err);
+    res.status(500).send("Server Error");
   }
 };

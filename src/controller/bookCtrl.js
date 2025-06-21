@@ -38,7 +38,9 @@ exports.postAddBook = async (req, res) => {
   } catch (err) {
     let errorMsg =
       "❌ Error: " +
-      (err.code === "ER_DUP_ENTRY" ? "ISBN already exists." : err.message);
+      (err.code === "ER_DUP_ENTRY"
+        ? "ISBN already exists. Please use a unique ISBN."
+        : err.message);
     res.render("addBook", { msg: errorMsg });
   }
 };
@@ -47,9 +49,10 @@ exports.postAddBook = async (req, res) => {
 exports.getAllBooks = async (req, res) => {
   try {
     const books = await bookService.getAllBooks();
-    res.render("viewBook", { books });
+    res.render("viewBook", { books, error: null });
   } catch (err) {
-    res.status(500).send("Error fetching books");
+    console.error("Error fetching books:", err);
+    res.render("viewBook", { books: [], error: err.message || 'Error fetching books' });
   }
 };
 

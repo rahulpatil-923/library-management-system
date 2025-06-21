@@ -29,11 +29,12 @@ body {
   padding: 1.5rem;
   border-radius: 8px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  overflow-x: auto; /* Enable horizontal scroll bar for tables */
 }
 
 .table-responsive {
   width: 100%;
-  overflow-x: auto;
+  overflow-x: auto; /* Always show horizontal scroll bar for responsive tables */
 }
 
 .table, .student-table, .book-table {
@@ -238,8 +239,11 @@ thead.table-dark th {
   min-height: 100vh;
   padding: 20px 0 20px 20px;
   border-right: 2px solid #ffc107;
-  
   width: 250px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
 }
 .sidebar h4 {
   color: #ffc107;
@@ -289,7 +293,7 @@ thead.table-dark th {
 .sidebar ul li a {
   color: #fbfaf7;
   text-decoration: none;
-  font-size: 1rem;
+  font-size: 1rem; 
   transition: color 0.2s;
   padding-left: 5px;
 }
@@ -331,9 +335,9 @@ thead.table-dark th {
   color: #000;
   font-weight: bold;
   width:200px;
-  font-size: 16px;
-  margin-left: 15%;
-  padding: 10px 0;
+  font-size: 15px;
+  margin-left: 1%;
+  padding: 6px 0;
   border-radius: 5px;
   transition: all 0.3s;
 }
@@ -579,4 +583,174 @@ h2.mb-4 {
 
 .row.g-0 {
   margin: 0;
+}
+
+/* ===================== */
+/* View Student Page Extra Enhancements */
+/* ===================== */
+
+.view-student-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #222;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.view-student .search-box {
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 1rem;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.view-student .btn-outline-primary {
+  margin-left: 10px;
+}
+
+.view-student .table-container {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+  margin-top: 2rem;
+}
+
+/* Remove scrollbars from table containers and center all main content */
+.table-container, .table-responsive {
+  overflow-x: unset !important;
+  overflow-y: unset !important;
+}
+
+.container-fluid, .admin-content, .main-content, .form-container, .issue-form {
+  display: block;
+  flex-direction: unset;
+  align-items: unset;
+  justify-content: unset;
+  margin: unset;
+}
+
+.col-md-9, .col-md-9 > * {
+  display: block;
+  flex-direction: unset;
+  align-items: unset;
+  justify-content: unset;
+}
+
+/* Restore min-widths for tables */
+.table, .student-table, .book-table {
+  min-width: 1400px !important;
+  width: 100% !important;
+}
+
+/* Restore horizontal scrollbars for tables/forms */
+.table-container, .table-responsive {
+  overflow-x: auto !important;
+  overflow-y: unset !important;
+}
+
+form, .issue-form, .form-container, .add-category-form-container, .reg-user-form-container {
+  overflow-x: unset;
+}
+
+/* ================================ */
+/* Issued / Returned Book Page CSS */
+/* ================================ */
+
+.issued-return-page {
+  background: #2393cb;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  max-width: 1200px;
+  margin: 2rem auto;
+  color: #fff;
+}
+
+.issued-return-page h2 {
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+  color: #fff;
+  margin-bottom: 2rem;
+}
+
+.issued-return-page .filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  justify-content: center;
+}
+
+.issued-return-page select,
+.issued-return-page input[type="text"] {
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+  width: 200px;
+}
+
+.issued-return-page table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  color: #222;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.issued-return-page th,
+.issued-return-page td {
+  padding: 14px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.issued-return-page th {
+  background: #343a40;
+  color: white;
+  font-weight: bold;
+}
+
+.issued-return-page tr:hover {
+  background: #f1f1f1;
+}
+
+.issued-return-page .badge {
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 14px;
+}
+
+.issued-return-page .bg-success {
+  background-color: #28a745;
+  color: white;
+}
+
+.issued-return-page .bg-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+.issued-return-page .bg-warning {
+  background-color: #ffc107;
+  color: #222;
+}
+
+.issued-return-page .btn-sm {
+  padding: 6px 12px;
+  font-size: 14px;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+}
+
+.issued-return-page .btn-sm:hover {
+  background-color: #0056b3;
 }

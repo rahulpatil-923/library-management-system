@@ -76,6 +76,10 @@
               <button class="btn btn-outline-primary" type="submit">Search</button>
             </form>
 
+            <% if (typeof error !== 'undefined' && error) { %>
+              <div class="alert alert-danger text-center"><%= error %></div>
+            <% } %>
+
             <div class="table-container">
               <div class="table-responsive">
                 <table class="book-table">

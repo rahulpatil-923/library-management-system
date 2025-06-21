@@ -9,31 +9,72 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/style.css" />
+    <style>
+      .add-category-wrapper {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #2393cb;
+      }
+      .add-category-form-container {
+        background: #fff;
+        padding: 40px 30px 30px 30px;
+        border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        width: 100%;
+        max-width: 500px;
+        margin: 0 auto;
+      }
+      .add-category-form-container h2 {
+        text-align: center;
+        margin-bottom: 25px;
+        color: #222;
+        font-weight: 700;
+      }
+      .add-category-form-container .form-control {
+        border-radius: 6px;
+        font-size: 1.1rem;
+      }
+      .add-category-form-container .btn-primary {
+        width: 100%;
+        font-size: 1.1rem;
+        border-radius: 6px;
+        margin-top: 10px;
+      }
+      .add-category-form-container .alert {
+        margin-bottom: 18px;
+        text-align: center;
+      }
+    </style>
   </head>
   <body>
-   
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-3 p-0"><%- include('sidebar') %></div>
-        <div class="col-md-9">
-          <h2 class="mb-4">Add New Category</h2>
 
-          <% if (msg) { %>
-          <div class="alert alert-info"><%= msg %></div>
-          <% } %>
-
-          <form action="/categories/add" method="POST" class="w-75">
-            <div class="mb-3">
-              <input
-                type="text"
-                name="name"
-                class="form-control"
-                placeholder="Enter Category Name"
-                required
-              />
+    <div class="col-md-3 p-0"><%- include('sidebar') %></div>
+    <div class="add-category-wrapper">
+      <div class="container-fluid">
+        <div class="row">
+         
+          <div class="col-md-9 d-flex align-items-center justify-content-center">
+            <div class="add-category-form-container">
+              <h2>Add New Category</h2>
+              <% if (msg) { %>
+              <div class="alert alert-info"><%= msg %></div>
+              <% } %>
+              <form action="/categories/add" method="POST">
+                <div class="mb-3">
+                  <input
+                    type="text"
+                    name="name"
+                    class="form-control"
+                    placeholder="Enter Category Name"
+                    required
+                  />
+                </div>
+                <button type="submit" class="btn btn-primary">Add Category</button>
+              </form>
             </div>
-            <button type="submit" class="btn btn-primary">Add Category</button>
-          </form>
+          </div>
         </div>
       </div>
     </div>

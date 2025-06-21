@@ -3,7 +3,8 @@ const express = require("express");
 const router = express.Router();
 const db = require("../config/db");
 
-router.get("/issued-books/view", async (req, res) => {
+// Returned Books View Route
+router.get("/returned-books/view", async (req, res) => {
   try {
     const [rows] = await db.query(`
       SELECT i.id, i.issue_date, i.return_date, i.status,
@@ -13,13 +14,14 @@ router.get("/issued-books/view", async (req, res) => {
       FROM issue_details i
       JOIN books b ON i.book_id = b.id
       JOIN users u ON i.issued_by = u.id
-      ORDER BY i.issue_date DESC
+      WHERE i.status = 'returned'
+      ORDER BY i.return_date DESC
     `);
 
-    res.render("IssueReturnBook", { issuedBooks: rows });
+    res.render("IssueReturnBook", { issuedBooks: rows }); // 👈 Your view file name
   } catch (err) {
-    console.error("Error fetching issued books:", err);
-    res.status(500).send("Error fetching issued books");
+    console.error("Error loading returned books:", err);
+    res.status(500).send("Error loading returned books");
   }
 });
 

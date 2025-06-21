@@ -49,14 +49,15 @@ CREATE TABLE `book_categories` (
 -- DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name`varchar(100) NOT NULL,
+  `name` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `role` enum('admin','librarian','member') NOT NULL DEFAULT 'member',
+  `role` enum('admin','librarian','user') NOT NULL DEFAULT 'user',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
-) ;
+);
+
 
 
 -- below queries create a issue table that take all details about book issued

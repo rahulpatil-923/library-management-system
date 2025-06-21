@@ -14,10 +14,9 @@
       <button type="submit">Update</button>
       <a href="/categories/view">Cancel</a>
     </form>
-
-    <% if (msg) { %>
-      <p><%= msg %></p>
-    <% } %>
+<% if (typeof msg !== 'undefined' && msg) { %>
+  <p><%= msg %></p>
+<% } %>
   </div>
 </body>
 </html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Category</title>
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    .add-category-wrapper {
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      background: #2393cb;
+    }
+    .add-category-form-container {
+      background: transparent;
+      box-shadow: none;
+      padding: 40px 30px 30px 30px;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 2.5px solid #111;
+      margin-top: 40px;
+    }
+    .add-category-form-container h2 {
+      text-align: center;
+      margin-bottom: 40px;
+      color: #fff;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    .add-category-form-container form {
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .add-category-form-container .form-group {
+      width: 100%;
+      margin-bottom: 22px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .add-category-form-container label {
+      font-weight: 500;
+      margin-bottom: 8px;
+      display: block;
+      text-align: left;
+      width: 100%;
+      color: #fff;
+    }
+    .add-category-form-container .form-control {
+      border-radius: 6px;
+      font-size: 1.08rem;
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #b5b5b5;
+      margin-top: 2px;
+      box-sizing: border-box;
+    }
+    .add-category-form-container .btn-primary {
+      width: 180px;
+      height: 44px;
+      font-size: 1.1rem;
+      border-radius: 6px;
+      margin: 18px auto 0 auto;
+      background: #fff;
+      color: #2393cb;
+      border: none;
+      font-weight: 700;
+      letter-spacing: 1px;
+      transition: background 0.2s, color 0.2s;
+      display: block;
+    }
+    .add-category-form-container .btn-primary:hover {
+      background: #1976a5;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+    <%- include('sidebar') %>
+  <div class="add-category-wrapper">
+    <div class="add-category-form-container" style="margin-top: 60px;">
+      <h2 style="margin-bottom: 40px;">Add Category</h2>
+      <form action="/categories/add" method="POST">
+        <div class="form-group">
+          <input type="text" id="name" name="name" class="form-control" placeholder="Enter Category Name" required>
+        </div>
+        <div class="form-group">
+          <select id="type" name="type" class="form-control" required>
+            <option value="admin">admin</option>
+            <option value="librarian">librarian</option>
+            <option value="user">user</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Category</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

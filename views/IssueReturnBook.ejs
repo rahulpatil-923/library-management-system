@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+      <%- include ('sidebar')%>
+       <div class="container mt-4">
+  <h2 class="text-center fw-bold mb-3">Issued/Returned Books</h2>
+
+  <div class="d-flex gap-2 mb-3">
+    <select class="form-select w-auto">
+      <option>All</option>
+    </select>
+    <input type="text" class="form-control w-50" placeholder="Search...">
+  </div>
+
+  <table class="table table-bordered text-center align-middle">
+    <thead class="table-light">
+      <tr>
+        <th>Book</th>
+        <th>User</th>
+        <th>Email</th>
+        <th>Issue Date</th>
+        <th>Return Date</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% issuedBooks.forEach(book => { %>
+        <tr>
+          <td><%= book.book_title %></td>
+          <td><%= book.student_name %></td>
+          <td><%= book.student_email %></td>
+          <td><%= book.issue_date %></td>
+          <td><%= book.return_date %></td>
+          <td>
+            <% if (book.return_status === 'Returned') { %>
+              <span class="badge bg-success">Returned</span>
+            <% } else if (new Date(book.return_date) < new Date()) { %>
+              <form action="/issued-books/returned" method="POST" style="display:inline;">
+                <input type="hidden" name="issue_id" value="<%= book.id %>">
+                <button type="submit" class="btn btn-sm btn-success me-1">Return</button>
+              </form>
+              <span class="badge bg-danger">Overdue</span>
+            <% } else { %>
+              <form action="/issued-books/returned" method="POST" style="display:inline;">
+                <input type="hidden" name="issue_id" value="<%= book.id %>">
+                <button type="submit" class="btn btn-sm btn-success me-1">Return</button>
+              </form>
+              <span class="badge bg-warning text-dark">Issued</span>
+            <% } %>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>

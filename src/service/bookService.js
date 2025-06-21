@@ -1,51 +1,9 @@
 const db = require("../config/db");
 
-exports.addBook = (book) => {
-  return new Promise((resolve, reject) => {
-    const sql = `INSERT INTO books (title, author, publisher, isbn, category, total_copies, available_copies, status, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-    db.query(
-      sql,
-      [
-        book.title,
-        book.author,
-        book.publisher || null,
-        book.isbn || null,
-        book.category || null,
-        book.total_copies,
-        book.available_copies,
-        book.status || "available",
-        book.image || null,
-      ],
-      (err, result) => {
-        if (err) return reject(err);
-        resolve(result);
-      }
-    );
-  });
-};
-
-exports.getAllBooks = () => {
-  return new Promise((resolve, reject) => {
-    db.query("SELECT * FROM books", (err, results) => {
-      if (err) return reject(err);
-      resolve(results);
-    });
-  });
-};
-
-exports.getBookById = (id) => {
-  return new Promise((resolve, reject) => {
-    db.query("SELECT * FROM books WHERE id = ?", [id], (err, results) => {
-      if (err) return reject(err);
-      resolve(results[0]);
-    });
-  });
-};
-
-exports.updateBook = (id, book) => {
-  return new Promise((resolve, reject) => {
-    let sql = `UPDATE books SET title=?, author=?, publisher=?, isbn=?, category=?, total_copies=?, available_copies=?, status=?`;
-    let params = [
+exports.addBook = async (book) => {
+  await db.query(
+    `INSERT INTO books (title, author, publisher, isbn, category, total_copies, available_copies, status, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    [
       book.title,
       book.author,
       book.publisher || null,
@@ -54,25 +12,42 @@ exports.updateBook = (id, book) => {
       book.total_copies,
       book.available_copies,
       book.status || "available",
-    ];
-    if (book.image) {
-      sql += ", image=?";
-      params.push(book.image);
-    }
-    sql += " WHERE id=?";
-    params.push(id);
-    db.query(sql, params, (err, result) => {
-      if (err) return reject(err);
-      resolve(result);
-    });
-  });
+      book.image || null,
+    ]
+  );
 };
 
-exports.deleteBook = (id) => {
-  return new Promise((resolve, reject) => {
-    db.query("DELETE FROM books WHERE id = ?", [id], (err, result) => {
-      if (err) return reject(err);
-      resolve(result);
-    });
-  });
+exports.getAllBooks = async () => {
+  const [results] = await db.query("SELECT * FROM books");
+  return results;
+};
+
+exports.getBookById = async (id) => {
+  const [results] = await db.query("SELECT * FROM books WHERE id = ?", [id]);
+  return results[0];
+};
+
+exports.updateBook = async (id, book) => {
+  let sql = `UPDATE books SET title=?, author=?, publisher=?, isbn=?, category=?, total_copies=?, available_copies=?, status=?`;
+  let params = [
+    book.title,
+    book.author,
+    book.publisher || null,
+    book.isbn || null,
+    book.category || null,
+    book.total_copies,
+    book.available_copies,
+    book.status || "available",
+  ];
+  if (book.image) {
+    sql += ", image=?";
+    params.push(book.image);
+  }
+  sql += " WHERE id=?";
+  params.push(id);
+  await db.query(sql, params);
+};
+
+exports.deleteBook = async (id) => {
+  await db.query("DELETE FROM books WHERE id = ?", [id]);
 };
