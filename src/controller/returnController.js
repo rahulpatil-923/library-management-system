@@ -1,19 +1,39 @@
 const db = require("../config/db");
 
+
+
+router.get("/issued-books/view", returnController.viewIssuedBooks);
+
+
+router.post("/issued-books/returned", returnController.returnBook);
+
+
 exports.returnBook = async (req, res) => {
-  const id = req.params.id;
+  const { issue_id } = req.body;
+
   try {
-    // Check if record exists
-    const [rows] = await db.query("SELECT * FROM issue_details WHERE id = ?", [id]);
-    if (rows.length === 0 || rows[0].status === "returned") {
-      return res.status(400).send("Already returned or not found.");
+    // Check if issued book exists and is not already returned
+    const [rows] = await db.promise().query("SELECT * FROM issue_details WHERE id = ?", [issue_id]);
+
+    if (rows.length === 0) {
+      return res.status(404).send("Issue record not found.");
     }
 
-    // Update status
-    await db.query("UPDATE issue_details SET status = 'returned' WHERE id = ?", [id]);
-    await db.query("UPDATE books SET available_copies = available_copies + 1 WHERE id = ?", [rows[0].book_id]);
+    const issue = rows[0];
 
-    res.redirect("/issues/view");
+    if (issue.status === "returned") {
+      return res.status(400).send("This book is already returned.");
+    }
+
+    // Update issue_details table
+    await db.promise().query("UPDATE issue_details SET status = 'returned' WHERE id = ?", [issue_id]);
+
+    // Update available_copies in books table
+    await db.promise().query("UPDATE books SET available_copies = available_copies + 1 WHERE id = ?", [issue.book_id]);
+
+    // Redirect to issued-books page
+    res.redirect("/issued-books/view");
+
   } catch (err) {
     console.error("Error returning book:", err);
     res.status(500).send("Server error while returning book.");

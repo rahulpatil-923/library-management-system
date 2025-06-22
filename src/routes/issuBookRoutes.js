@@ -1,8 +1,18 @@
-// returnRoutes.js
+// routes/issuBookRoutes.js
 const express = require("express");
 const router = express.Router();
 const db = require("../config/db");
 
+// ✅ Correct: import the controller
+const issueBookController = require("../controller/issubookController");
+
+// ✅ Route to render issue form page
+router.get("/issue", issueBookController.renderIssueForm);
+
+// ✅ Route to issue the book (form submission)
+router.post("/issue", issueBookController.issueBook);
+
+// ✅ Route to view issued books
 router.get("/issued-books/view", async (req, res) => {
   try {
     const [rows] = await db.query(`

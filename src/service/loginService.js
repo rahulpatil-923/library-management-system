@@ -1,10 +1,5 @@
-
-// Example logic (you should use database here instead)
-const dummyUser = { username: "admin", password: "1234" };
+const dummyUser = { email: "admin@gmail.com", password: "12345" };
 
 exports.logLogic = (username, password) => {
-  if (username === dummyUser.username && password === dummyUser.password) {
-    return true;
-  }
-  return false;
+  return username === dummyUser.email && password === dummyUser.password;
 };

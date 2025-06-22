@@ -1,21 +1,24 @@
 const express = require("express");
 const router = express.Router();
-const loginCtrl = require("../controller/loginCtrl");
+const loginService = require("../service/loginService");
 
-// ✅ Homepage route handled by router
-router.get("/", (req, res) => {
-  res.render("homepage"); // assumes views/homepage.ejs exists
-});
-
-// ✅ Login page
+// GET login page
 router.get("/login", (req, res) => {
-  res.render("login", { msg: null });
+  res.render("login", { error: null });
 });
 
-// ✅ Login form handler
-router.post("/login", loginCtrl.login);
+// POST login logic
+router.post("/login", (req, res) => {
+  const { email, password } = req.body;
 
-// ✅ Registration form
-router.post("/register", loginCtrl.registerStudent);
+  const isValidUser = loginService.logLogic(email, password);
+
+  if (isValidUser) {
+    return res.redirect("/adminDashboard");
+  } else {
+    console.log(JSON.stringify({ message: "Invalid email or password" }));
+    return res.render("login", { error: "Username or password is incorrect" });
+  }
+});
 
 module.exports = router;
