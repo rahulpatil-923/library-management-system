@@ -1,16 +1,14 @@
+// routes/loginRouts.js
 const express = require("express");
 const router = express.Router();
 const loginService = require("../service/loginService");
 
-// GET login page
 router.get("/login", (req, res) => {
   res.render("login", { error: null });
 });
 
-// POST login logic
 router.post("/login", (req, res) => {
   const { email, password } = req.body;
-
   const isValidUser = loginService.logLogic(email, password);
 
   if (isValidUser) {

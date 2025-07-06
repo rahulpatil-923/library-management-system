@@ -1,4 +1,4 @@
-const adminRoutes = require("../routes/adminRoutes");
+const adminRoutes = require("..````/routes/adminRoutes");
 
 
 exports.dashboardCtrl = (req, res) => {

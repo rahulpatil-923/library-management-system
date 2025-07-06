@@ -1,9 +1,18 @@
 const express = require("express");
-const app = express();
-const bodyParser = require("body-parser");
 const path = require("path");
+const bodyParser = require("body-parser");
 
-// Routers
+const app = express();
+
+// ✅ View Engine Setup
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "../views")); // Make sure views/ exists at root level
+
+// ✅ Static & Middleware
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, "../public")));
+
+// ✅ Routers
 const loginRoutes = require("./routes/loginRouts");
 const adminRouts = require("./routes/AdminRouts");
 const userRoutes = require("./routes/userRoutes");
@@ -14,24 +23,24 @@ const registerRoutes = require("./routes/registerRoutes");
 const issueBookRoutes = require("./routes/issuBookRoutes");
 const returnRoutes = require("./routes/returnRoutes");
 
-// Middleware
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.set("view engine", "ejs");
-app.use(express.static(path.join(__dirname, "../public")));
 
-// Route mounting
 app.use("/", loginRoutes);
-app.use("/admin", adminRouts);
 app.use("/user", userRoutes);
 app.use("/user/view", viewStudentRoutes);
 app.use("/categories", categoryRoutes);
 app.use("/books", bookRoutes);
 app.use("/register", registerRoutes);
-app.use("/issues", issueBookRoutes);      // ✅ Correct: handles /issues/issue etc
-app.use("/", returnRoutes);               // For return book and issued-books/view
 
-// Direct view for admin
+app.use("/", issueBookRoutes);
+
+app.use("/", returnRoutes);
+
+
+app.get("/", (req, res) => {
+  res.render("homepage"); 
+});
+
+
 app.get("/adminDashboard", (req, res) => {
   res.render("adminDashboard");
 });
