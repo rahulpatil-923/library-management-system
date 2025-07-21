@@ -4,123 +4,162 @@
   <meta charset="UTF-8" />
   <title>View Categories</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-  />
   <link rel="stylesheet" href="/style.css" />
   <style>
-    .content-wrapper {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
+    body {
+      background: linear-gradient(120deg, #eaf6fb 0%, #2393cb 100%);
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
     }
-    .search-form {
-      max-width: 400px;
-      margin-bottom: 2rem;
-    }
-    .table-container {
+    .category-table-container {
       background: #fff;
-      padding: 1.5rem;
-      border-radius: 8px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-      margin-bottom: 2rem;
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(35,147,203,0.13);
+      border: 2.5px solid #2393cb;
+      padding: 32px 32px 28px 32px;
+      margin: 32px auto 24px auto;
+      max-width: 630px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 200px;
+      animation: fadeInCard 0.7s cubic-bezier(.4,1.4,.6,1) 1;
+      transition: box-shadow 0.2s, border 0.2s;
+    }
+    .category-table-container:hover {
+      box-shadow: 0 12px 48px rgba(35,147,203,0.18), 0 2px 0 #2393cb;
+      border-color: #183153;
     }
     .category-table {
       width: 100%;
-      min-width: 600px;
+      background: #f8fafd;
+      border-radius: 10px;
+      overflow: hidden;
       margin-bottom: 0;
-    }
-    .category-table th,
-    .category-table td {
-      padding: 12px 15px;
-      text-align: center;
-      border: 1px solid #dee2e6;
+      border: 2.5px solid #2393cb;
+      box-shadow: 0 2px 12px rgba(35,147,203,0.08);
+      font-size: 1.05rem;
+      transition: box-shadow 0.2s;
     }
     .category-table th {
-      background: #212529;
-      color: white;
-      font-weight: 500;
-      white-space: nowrap;
+      background: linear-gradient(90deg, #2393cb 60%, #1e6fa7 100%);
+      color: #fff;
+      font-weight: 700;
+      text-align: center;
+      padding: 14px 10px;
+      border: 1.5px solid #2393cb;
+      font-size: 1.12rem;
+      letter-spacing: 0.5px;
+      text-shadow: 0 1px 0 #183153;
     }
     .category-table td {
-      background: white;
+      text-align: center;
+      padding: 13px 10px;
+      border: 1px solid #b2d6ee;
+      background: #f8fafd;
+      font-size: 1.04rem;
+      transition: background 0.18s;
+    }
+    .category-table tr:nth-child(even) td {
+      background: #eaf6fb;
+    }
+    .category-table tr:hover td {
+      background: #e0f0fa;
+    }
+    .category-table td:last-child {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 24px;
+      gap: 6px;
+      width: 100%;
+    }
+    .pagination button {
+      background: #2393cb;
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      padding: 8px 24px;
+      font-weight: 700;
+      font-size: 1.05rem;
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+      box-shadow: 0 2px 8px rgba(35,147,203,0.08);
+      cursor: pointer;
+      min-width: 60px;
+      outline: none;
+    }
+    .pagination button:disabled {
+      background: #b2d6ee;
+      color: #fff;
+      cursor: not-allowed;
+    }
+    .pagination button:not(:disabled):hover {
+      background: #183153;
+      color: #fff;
+      box-shadow: 0 3px 12px rgba(35,147,203,0.15);
     }
   </style>
 </head>
-<body>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-3 p-0"><%- include('sidebar') %></div>
-      <div class="col-md-9">
-        <div class="content-wrapper">
-          <h4 class="mb-4">📂 View Categories</h4>
-
-          <!-- Error Message -->
-          <% if (typeof error !== 'undefined' && error) { %>
-            <div class="alert alert-danger text-center"><%= error %></div>
+<body style="overflow-x:hidden;">
+  <div style="display:flex; min-height:100vh;">
+    <div style="min-width:240px; background:linear-gradient(135deg, #2393cb 0%, #183153 100%); min-height:100vh;">
+      <%- include('sidebar') %>
+    </div>
+    <div style="flex:1; display:flex; align-items:flex-start; justify-content:center;">
+      <div class="category-table-container" style="margin:24px auto 16px auto; min-height:220px; padding:18px 28px 16px 28px; max-width:700px; width:100%;">
+        <h2 style="color:#183153; font-size:1.7rem; font-weight:900; margin-bottom:14px; text-align:center; letter-spacing:1.2px; text-shadow:0 1px 6px #eaf6fb;">All Categories</h2>
+        <table class="category-table table table-bordered table-striped mb-0" style="width:100%; background:#f8fafd;">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Category Name</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (categories && categories.length) { %>
+              <% let rowNum = 1; %>
+              <% categories.forEach(function(category, idx) { 
+                   if (category.name && category.name.trim() && /^[A-Za-z ]+$/.test(category.name.trim())) { %>
+                <tr>
+                  <td><%= rowNum++ %></td>
+                  <td><%= category.name %></td>
+                  <td>
+                    <a href="/categories/edit/<%= category.id %>" class="btn btn-warning btn-edit" title="Edit"><i class="fa fa-edit"></i></a>
+                    <a href="/categories/delete/<%= category.id %>" class="btn btn-danger btn-delete" title="Delete" onclick="return confirm('Are you sure?')"><i class="fa fa-trash"></i></a>
+                  </td>
+                </tr>
+              <% } 
+              }) %>
+            <% } else { %>
+              <tr><td colspan="3">No categories found.</td></tr>
+            <% } %>
+          </tbody>
+        </table>
+        <div class="pagination mt-3" style="gap: 4px;">
+          <% if (currentPage > 1) { %>
+            <form method="GET" action="/categories/view" style="display:inline;">
+              <input type="hidden" name="page" value="<%= currentPage - 1 %>" />
+              <% if (query) { %><input type="hidden" name="q" value="<%= query %>" /><% } %>
+              <button class="btn">Previous</button>
+            </form>
           <% } %>
-
-          <!-- Search Form -->
-          <form class="search-form d-flex" method="get" action="/categories/view">
-            <input
-              type="text"
-              name="q"
-              class="form-control me-2"
-              placeholder="Search category..."
-              value="<%= typeof query !== 'undefined' ? query : '' %>"
-            />
-            <button class="btn btn-outline-primary me-2" type="submit">Search</button>
-            <a href="/categories/add" class="btn btn-success">+ Add New</a>
-          </form>
-
-          <!-- Table -->
-          <div class="table-container">
-            <div class="table-responsive">
-              <table class="category-table">
-                <thead>
-                  <tr>
-                    <th>Sr. No</th>
-                    <th>Category Name</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% if (categories && categories.length > 0) { %>
-                    <% categories.forEach(function(category, idx) { %>
-                      <tr>
-                        <td><%= idx + 1 %></td>
-                        <td><%= category.name %></td>
-                        <td>
-                          <a href="/categories/edit/<%= category.id %>" class="btn btn-sm btn-warning">✏️ Edit</a>
-                          <a href="/categories/delete/<%= category.id %>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this category?')">🗑️ Delete</a>
-                        </td>
-                      </tr>
-                    <% }) %>
-                  <% } else { %>
-                    <tr>
-                      <td colspan="3" class="text-center">No categories found.</td>
-                    </tr>
-                  <% } %>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <!-- Pagination -->
-          <nav aria-label="Page navigation">
-            <ul class="pagination justify-content-center mt-4">
-              <% if (prevPage) { %>
-                <li class="page-item">
-                  <a class="page-link" href="?q=<%= query %>&page=<%= prevPage %>">Previous</a>
-                </li>
-              <% } %>
-              <li class="page-item">
-                <a class="page-link" href="?q=<%= query %>&page=<%= nextPage %>">Next</a>
-              </li>
-            </ul>
-          </nav>
-
+          <span style="font-weight:600; color:#2393cb; margin:0 8px; align-self:center;">Page <%= currentPage %> of <%= totalPages %></span>
+          <% if (currentPage < totalPages) { %>
+            <form method="GET" action="/categories/view" style="display:inline;">
+              <input type="hidden" name="page" value="<%= currentPage + 1 %>" />
+              <% if (query) { %><input type="hidden" name="q" value="<%= query %>" /><% } %>
+              <button class="btn">Next</button>
+            </form>
+          <% } %>
         </div>
       </div>
     </div>

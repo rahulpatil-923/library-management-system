@@ -1,82 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Add Category</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="/style.css" />
-    <style>
-      .add-category-wrapper {
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #2393cb;
+<head>
+  <meta charset="UTF-8">
+  <title>Add Categories</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    body {
+      background: linear-gradient(120deg, #fafdff 60%, #eaf6fb 100%);
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .category-card {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(35,147,203,0.13);
+      border: 2.5px solid #2393cb;
+      padding: 38px 38px 32px 38px;
+      margin: 32px auto 24px auto;
+      max-width: 480px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 220px;
+    }
+    .category-card h2 {
+      color: #183153;
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 24px;
+      text-align: center;
+      letter-spacing: 1px;
+      width: 100%;
+    }
+    .category-form-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 12px;
+    }
+    .category-form-table td {
+      padding: 8px 0;
+      vertical-align: middle;
+    }
+    .category-form-table label {
+      color: #1e6fa7;
+      font-weight: 700;
+      font-size: 1rem;
+      margin-right: 12px;
+      white-space: nowrap;
+    }
+    .category-form-table input[type="text"] {
+      border: 1.2px solid #2393cb;
+      border-radius: 7px;
+      padding: 9px 10px;
+      font-size: 1rem;
+      background: #f8fafd;
+      outline: none;
+      width: 100%;
+      transition: border 0.2s, box-shadow 0.2s;
+      box-shadow: 0 1px 0 #eaf6fb;
+    }
+    .category-form-table input[type="text"]:focus {
+      border: 2px solid #183153;
+      box-shadow: 0 0 0 1.5px #b2d6ee;
+    }
+    .btn.lms-btn {
+      background: linear-gradient(90deg, #2393cb 60%, #1e6fa7 100%);
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      padding: 10px 0;
+      font-size: 1.08rem;
+      font-weight: 700;
+      width: 100%;
+      margin-top: 18px;
+      transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+    }
+    .btn.lms-btn:hover {
+      background: #183153;
+    }
+    @media (max-width: 600px) {
+      .category-card {
+        padding: 18px 4px 18px 4px;
+        max-width: 98vw;
       }
-      .add-category-form-container {
-        background: #fff;
-        padding: 40px 30px 30px 30px;
-        border-radius: 12px;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-        width: 100%;
-        max-width: 500px;
-        margin: 0 auto;
+      .category-form-table label {
+        font-size: 0.98rem;
       }
-      .add-category-form-container h2 {
-        text-align: center;
-        margin-bottom: 25px;
-        color: #222;
-        font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <div class="category-card">
+    <h2>Add Category</h2>
+    <% if (typeof error !== 'undefined' && error) { %>
+      <div class="alert alert-danger"><%= error %></div>
+    <% } %>
+    <form method="POST" action="/categories/add" onsubmit="return validateCategoryForm();">
+      <table class="category-form-table">
+        <tr>
+          <td><label for="categoryName">Category Name</label></td>
+          <td>
+            <input type="text" name="name" id="categoryName" required value="<%= typeof oldName !== 'undefined' ? oldName : '' %>" />
+            <div id="catErr" style="color:#e74c3c;font-size:0.98rem;margin-bottom:8px;display:none;"></div>
+          </td>
+        </tr>
+      </table>
+      <button type="submit" class="btn lms-btn">Add Category</button>
+    </form>
+  </div>
+  <script>
+    function validateCategoryForm() {
+      var name = document.getElementById('categoryName').value.trim();
+      var err = document.getElementById('catErr');
+      if (!name) {
+        err.innerText = "Category name is required.";
+        err.style.display = "block";
+        return false;
       }
-      .add-category-form-container .form-control {
-        border-radius: 6px;
-        font-size: 1.1rem;
-      }
-      .add-category-form-container .btn-primary {
-        width: 100%;
-        font-size: 1.1rem;
-        border-radius: 6px;
-        margin-top: 10px;
-      }
-      .add-category-form-container .alert {
-        margin-bottom: 18px;
-        text-align: center;
-      }
-    </style>
-  </head>
-  <body>
-
-    <div class="col-md-3 p-0"><%- include('sidebar') %></div>
-    <div class="add-category-wrapper">
-      <div class="container-fluid">
-        <div class="row">
-         
-          <div class="col-md-9 d-flex align-items-center justify-content-center">
-            <div class="add-category-form-container">
-              <h2>Add New Category</h2>
-              <% if (msg) { %>
-              <div class="alert alert-info"><%= msg %></div>
-              <% } %>
-              <form action="/categories/add" method="POST">
-                <div class="mb-3">
-                  <input
-                    type="text"
-                    name="name"
-                    class="form-control"
-                    placeholder="Enter Category Name"
-                    required
-                  />
-                </div>
-                <button type="submit" class="btn btn-primary">Add Category</button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </body>
+      err.style.display = "none";
+      return true;
+    }
+  </script>
+</body>
 </html>

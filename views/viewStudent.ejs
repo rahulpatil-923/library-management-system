@@ -6,123 +6,369 @@
   <title>View all Users</title>
   <link rel="stylesheet" href="/style.css">
   <style>
-    /* Enhanced View Users Page CSS */
-    .view-student {
+    body {
+      background: linear-gradient(120deg, #ffffff 0%, #ffffff 100%);
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+    }
+    .users-content-area {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 8vh;
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2px 0 2px 0;
+    }
+    .user-table-container {
+      width: 100%;
+      max-width: 700px;
+      background: #fff;
+      border-radius: 22px;
+      box-shadow: 0 12px 36px rgba(35,147,203,0.18);
+      border: 2.5px solid #2393cb;
+      padding: 38px 38px 38px 38px;
+      margin: 32px auto 24px auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: box-shadow 0.2s, border 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .user-table-container:before {
+      content: '';
+      position: absolute;
+      top: -60px; left: -60px;
+      width: 180px; height: 180px;
+      background: radial-gradient(circle, #2393cb33 60%, transparent 100%);
+      z-index: 0;
+      border-radius: 50%;
+      opacity: 0.5;
+    }
+    .user-table-container:after {
+      content: '';
+      position: absolute;
+      bottom: -60px; right: -60px;
+      width: 180px; height: 180px;
+      background: radial-gradient(circle, #2393cb33 60%, transparent 100%);
+      z-index: 0;
+      border-radius: 50%;
+      opacity: 0.5;
+    }
+    .users-content-area h2 {
+      color: #183153;
+      font-size: 2.3rem;
+      font-weight: 900;
+      margin-bottom: 18px;
+      text-align: center;
+      letter-spacing: 1.5px;
+      text-shadow: 0 2px 12px #eaf6fb;
+      position: relative;
+      z-index: 1;
+    }
+    .lms-form {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      width: 100%;
+      max-width: 400px;
+    }
+    .lms-form input[type="text"] {
+      border: 1.5px solid #2393cb;
+      border-radius: 7px;
+      padding: 8px 12px;
+      font-size: 1rem;
+      background: #f8fafd;
+      outline: none;
+      transition: border 0.2s;
+      box-shadow: 0 1px 0 #eaf6fb;
+    }
+    .lms-form input[type="text"]:focus {
+      border: 2px solid #183153;
+    }
+    .btn.lms-btn, .btn {
+      background: linear-gradient(90deg, #2393cb 60%, #1e6fa7 100%);
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      padding: 8px 18px;
+      font-size: 1.08rem;
+      font-weight: 700;
+      transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+      box-shadow: 0 2px 8px rgba(35,147,203,0.13);
+      min-width: 80px;
+      letter-spacing: 0.2px;
+      cursor: pointer;
+    }
+    .btn.lms-btn:hover, .btn:hover {
+      background: linear-gradient(90deg, #183153 60%, #2393cb 100%);
+      color: #fff;
+      transform: translateY(-1px) scale(1.02);
+      box-shadow: 0 3px 12px rgba(35,147,203,0.15);
+    }
+    .btn-edit {
+      background: #ffc107 !important;
+      color: #183153 !important;
+      min-width: 38px !important;
+      max-width: 44px !important;
+      padding: 6px 0 !important;
+      font-size: 1rem;
+      margin-right: 4px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(255,193,7,0.10);
+      border: 1.5px solid #ffe082;
+      transition: background 0.18s, color 0.18s;
+    }
+    .btn-edit:hover {
+      background: #ffd54f !important;
+      color: #183153 !important;
+    }
+    .btn-delete {
+      background: #e74c3c !important;
+      color: #fff !important;
+      min-width: 38px !important;
+      max-width: 44px !important;
+      padding: 6px 0 !important;
+      font-size: 1rem;
+      margin-right: 4px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(231,76,60,0.10);
+      border: 1.5px solid #ffb3a7;
+      transition: background 0.18s, color 0.18s;
+    }
+    .btn-delete:hover {
+      background: #ff6659 !important;
+      color: #fff !important;
+    }
+    .btn-edit i, .btn-delete i {
+      margin-right: 0;
+    }
+    .student-table {
+      width: 100%;
+      background: #f8fafd;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 0;
+      border: 2.5px solid #2393cb;
+      box-shadow: 0 2px 16px rgba(35,147,203,0.10);
+      font-size: 1.08rem;
+      transition: box-shadow 0.2s;
+      position: relative;
+      z-index: 1;
+    }
+    .student-table th {
+      background: linear-gradient(90deg, #2393cb 60%, #1e6fa7 100%);
+      color: #fff;
+      font-weight: 800;
+      text-align: center;
+      padding: 16px 10px;
+      border: 1.5px solid #2393cb;
+      font-size: 1.18rem;
+      letter-spacing: 0.7px;
+      text-shadow: 0 2px 8px #183153;
+    }
+    .student-table td {
+      text-align: center;
+      padding: 14px 10px;
+      border: 1px solid #b2d6ee;
+      background: #f8fafd;
+      font-size: 1.07rem;
+      transition: background 0.18s;
+    }
+    .student-table tr:nth-child(even) td {
+      background: #eaf6fb;
+    }
+    .student-table tr:hover td {
+      background: #d0eafc;
+    }
+    .student-table td:last-child {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+    .pagination {
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
-      background-color: #2393cb;
-    }
-
-    .table-container {
-      background-color: #ffffff;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      margin-top: 32px;
+      gap: 0px;
       width: 100%;
-      max-width: 800px;
+      position: relative;
+      z-index: 1;
     }
-
-    h4.view-student-title {
-      font-size: 1.8rem;
-      font-weight: bold;
-      color: #333;
-      margin-bottom: 20px;
+    .pagination form {
+      margin: 0;
     }
-
-    .search-box {
-      height: 45px;
-      font-size: 1rem;
-      border-radius: 5px;
-      border: 1px solid #ced4da;
-      margin-bottom: 20px;
-    }
-
-    .btn-outline-primary {
-      background-color: #007bff;
+    .pagination button {
+      border-radius: 0;
+      background: linear-gradient(90deg, #2393cb 60%, #1e6fa7 100%);
       color: #fff;
       border: none;
-      height: 45px;
-      font-size: 1rem;
-      border-radius: 5px;
-      transition: background-color 0.3s ease;
+      padding: 10px 38px;
+      font-weight: 800;
+      font-size: 1.15rem;
+      box-shadow: 0 2px 12px rgba(35,147,203,0.13);
+      min-width: 80px;
+      letter-spacing: 0.3px;
+      cursor: pointer;
+      outline: none;
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
     }
-
-    .btn-outline-primary:hover {
-      background-color: #0056b3;
+    .pagination button:disabled {
+      background: #b2d6ee;
+      color: #fff;
+      cursor: not-allowed;
     }
-
-    .user-table {
-      width: 100%;
-      border-collapse: collapse;
+    .pagination form:first-child button {
+      border-top-left-radius: 8px;
+      border-bottom-left-radius: 8px;
     }
-
-    .user-table th {
-      text-align: center;
-      padding: 10px;
-      border: 1px solid #ddd;
-      background-color: #f8f9fa;
-      font-weight: bold;
-      color: black; /* Apply black text color to table headings */
+    .pagination form:last-child button {
+      border-top-right-radius: 8px;
+      border-bottom-right-radius: 8px;
     }
-
-    .user-table td {
-      text-align: center;
-      padding: 10px;
-      border: 1px solid #ddd;
+    .pagination button:not(:disabled):hover {
+      background: linear-gradient(90deg, #183153 60%, #2393cb 100%);
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(35,147,203,0.18);
+      transform: translateY(-1px) scale(1.03);
+    }
+    /* Responsive */
+    @media (max-width: 1200px) {
+      .user-table-container {
+        max-width: 98vw;
+        padding: 18px 6px;
+      }
+      .users-content-area {
+        max-width: 98vw;
+        padding: 30px 0 20px 0;
+      }
+      
+    }
+    @media (max-width: 900px) {
+      .user-table-container {
+        max-width: 98vw;
+        padding: 16px 6px;
+      }
+      .student-table {
+        max-width: 98vw;
+      }
+    }
+    @media (max-width: 600px) {
+      .user-table-container {
+        padding: 8px 2px;
+      }
+      .student-table {
+        font-size: 0.95rem;
+      }
     }
   </style>
 </head>
 <body>
-<%- include('sidebar.ejs') %>
-<div class="container-fluid view-student d-flex justify-content-center align-items-center">
-  <div class="row">
-    <div class="col-md-9">
-      <h4 class="view-student-title text-center">View all Users</h4>
-
-      <form class="d-flex justify-content-center mb-4" method="get" action="/user/view">
-        <input class="search-box" type="search" name="q" placeholder="Search by any keyword..." value="<%= typeof query !== 'undefined' ? query : '' %>" />
-        <button class="btn btn-outline-primary" type="submit">Search</button>
-      </form>
-
-      <div class="table-container">
-        <div class="table-responsive">
-          <table class="user-table table table-striped">
-            <thead>
-              <tr>
-                <th>Sr. No.</th>
-                <th>Name</th>
-                <th>Email / Username</th>
-                <th>Role</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% if (users && users.length > 0) { %>
-                <% users.forEach((user, index) => { %>
-                  <tr>
-                    <td><%= index + 1 %></td>
-                    <td><%= user.name %></td>
-                    <td><%= user.email %></td>
-                    <td><%= user.role %></td>
-                    <td>
-                      <a href="/user/update/<%= user.id %>" class="btn btn-sm btn-warning">✏️</a>
-                      <a href="/user/delete/<%= user.id %>" class="btn btn-sm btn-danger">🗑️</a>
-                    </td>
-                  </tr>
-                <% }) %>
-              <% } else { %>
-                <tr>
-                  <td colspan="5" class="text-center">No users found</td>
-                </tr>
-              <% } %>
-            </tbody>
-          </table>
+  <div class="main-users-wrapper">
+    <div class="sidebar"><%- include('sidebar') %></div>
+    <div class="users-content-area">
+      <div class="user-table-container">
+        <h2>All Users</h2>
+        <% if (typeof msg !== 'undefined' && msg) { %>
+          <div class="alert alert-info" id="msgAlert"><%= msg %></div>
+        <% } %>
+        <form class="lms-form d-flex flex-row align-items-center" method="GET" action="/user/view" style="max-width:400px;gap:10px;" onsubmit="return validateSearch();">
+          <input type="text" name="q" id="searchUser" placeholder="Search user..." value="<%= typeof query !== 'undefined' ? query : '' %>" class="form-control" />
+          <button type="submit" class="btn lms-btn">Search</button>
+        </form>
+        <div id="searchErr" style="color:#e74c3c;font-size:0.98rem;margin-bottom:8px;display:none;"></div>
+        <!-- Pagination Controls (Top) removed -->
+        <!-- User Count Display -->
+        <div style="text-align:right; width:100%; font-size:1rem; color:#2393cb; margin-bottom:8px;">
+          <% if (totalUsers > 0) { %>
+            Showing <%= (currentPage-1)*5+1 %> - <%= Math.min(currentPage*5, totalUsers) %> of <%= totalUsers %> users
+          <% } %>
         </div>
+        <table class="table student-table mt-4">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (users && users.length) { %>
+              <% users.forEach(function(user, idx) { %>
+                <tr>
+                  <td><%= (currentPage-1)*5 + idx + 1 %></td>
+                  <td><%= user.name %></td>
+                  <td><%= user.email %></td>
+                  <td><%= user.role %></td>
+                  <td>
+                    <a href="/user/update/<%= user.id %>" class="btn btn-warning btn-edit" title="Edit"><i class="fa fa-edit"></i></a>
+                    <a href="/user/delete/<%= user.id %>" class="btn btn-danger btn-delete" title="Delete" onclick="return confirm('Are you sure?')"><i class="fa fa-trash"></i></a>
+                  </td>
+                </tr>
+              <% }) %>
+            <% } else { %>
+              <tr><td colspan="5">No users found.</td></tr>
+            <% } %>
+          </tbody>
+        </table>
+        <!-- Pagination Controls (Bottom only) -->
+        <% if (totalPages > 1) { %>
+        <div class="pagination mt-4" style="justify-content:center; gap:0px;">
+          <form method="GET" action="/user/view" style="display:inline;">
+            <input type="hidden" name="page" value="<%= currentPage-1 %>" />
+            <% if (query) { %>
+              <input type="hidden" name="q" value="<%= query %>" />
+            <% } %>
+            <button class="btn" <%= currentPage === 1 ? 'disabled' : '' %>>Previous</button>
+          </form>
+          <form method="GET" action="/user/view" style="display:inline;">
+            <input type="hidden" name="page" value="<%= currentPage+1 %>" />
+            <% if (query) { %>
+              <input type="hidden" name="q" value="<%= query %>" />
+            <% } %>
+            <button class="btn" <%= currentPage === totalPages ? 'disabled' : '' %>>Next</button>
+          </form>
+        </div>
+        <% } %>
       </div>
     </div>
   </div>
-</div>
+  <script>
+    function validateSearch() {
+      var val = document.getElementById('searchUser').value.trim();
+      var err = document.getElementById('searchErr');
+      if (val === "") {
+        err.innerText = "Please enter a search term.";
+        err.style.display = "block";
+        return false;
+      }
+      err.style.display = "none";
+      return true;
+    }
+    // Hide the message after 2 seconds
+    window.onload = function () {
+      const msgAlert = document.getElementById("msgAlert");
+      if (msgAlert) {
+        setTimeout(() => {
+          msgAlert.style.display = "none";
+        }, 2000);
+      }
+    };
+  </script>
 </body>
 </html>

@@ -1,141 +1,271 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Add Book</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="/style.css" />
-    <style>
-      .form-container {
-        background: #fff;
-        padding: 2rem;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        max-width: 800px;
-        margin-left: 0;
+<head>
+  <style>
+    body {
+      background: linear-gradient(120deg,#ffffff 0%, #ffffff 100%);
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+      overflow-x: hidden;
+    }
+    .main-book-wrapper {
+      display: flex;
+      flex-direction: row;
+      min-height: 100vh;
+      width: 100vw;
+      background: none;
+      overflow: hidden;
+    }
+    .sidebar {
+      min-width: 220px;
+      background: linear-gradient(135deg, #2393cb 0%, #183153 100%);
+      border-right: 2px solid #2393cb;
+      box-shadow: 0 2px 12px rgba(35,147,203,0.08);
+      z-index: 2;
+    }
+    .book-content-area {
+      flex-grow: 1;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      min-height: 100vh;
+      background: none;
+      overflow-x: hidden;
+      overflow-y: visible;
+      padding-top: 32px;
+    }
+    .book-card {
+      background: #fff;
+      border-radius: 22px;
+      box-shadow: 0 12px 36px rgba(35,147,203,0.18);
+      border: 2.5px solid #2393cb;
+      padding: 18px 32px 18px 32px;
+      min-width: 480px;
+      max-width: 450px;
+      margin:24px auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      overflow: visible;
+    }
+    .book-card h2 {
+      color: #183153;
+      font-size: 2.1rem;
+      font-weight: 900;
+      margin-top: 0;
+      margin-bottom: 18px;
+      text-align: center;
+      letter-spacing: 1.5px;
+      text-shadow: 0 2px 12px #eaf6fb;
+      position: relative;
+      z-index: 1;
+    }
+    .lms-form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      margin-top: 0;
+      position: relative;
+      z-index: 1;
+    }
+    .lms-form-row {
+      display: flex;
+      flex-direction: row;
+      gap: 32px;
+      width: 100%;
+    }
+    .lms-form-group {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+    }
+    
+    .lms-form label {
+      font-weight: 700;
+      color: #2393cb;
+      font-size: 1.08rem;
+      margin-bottom: 2px;
+    }
+    .lms-form input[type="text"],
+    .lms-form input[type="number"],
+    .lms-form select {
+      border: 1.5px solid #2393cb;
+      border-radius: 7px;
+      padding: 9px 1px;
+      font-size: 1.02rem;
+      background: #f8fafd;
+      outline: none;
+      transition: border 0.2s;
+      box-shadow: 0 1px 0 #eaf6fb;
+      width: 100%;
+    }
+    .lms-form input[type="text"]:focus,
+    .lms-form input[type="number"]:focus,
+    .lms-form select:focus {
+      border: 2px solid #183153;
+    }
+    .lms-form input[type="file"] {
+      border: none;
+      background: none;
+      font-size: 1rem;
+      margin-top: 2px;
+    }
+    .add-book-btn-row {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      align-items: center;
+      margin-top: 32px;
+    }
+    .btn.lms-btn {
+      background: linear-gradient(90deg, #2393cb 60%, #1e6fa7 100%);
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      padding: 8px 0;
+      font-size: 1.08rem;
+      font-weight: 800;
+      transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+      box-shadow: 0 2px 8px rgba(35,147,203,0.13);
+      min-width: 180px;
+      letter-spacing: 0.3px;
+      cursor: pointer;
+      margin-top: 4px;
+    }
+    .btn.lms-btn:hover {
+      background: linear-gradient(90deg, #183153 60%, #2393cb 100%);
+      color: #fff;
+      transform: translateY(-1px) scale(1.02);
+      box-shadow: 0 3px 12px rgba(35,147,203,0.15);
+    }
+    .btn.btn-secondary {
+      background: #eaf6fb;
+      color: #2393cb;
+      border: 1.5px solid #2393cb;
+      border-radius: 7px;
+      padding: 8px 0;
+      font-size: 1.08rem;
+      font-weight: 700;
+      min-width: 90px;
+      max-width: 100%;
+      letter-spacing: 0.3px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    }
+    .btn.btn-secondary:hover {
+      background: #2393cb;
+      color: #fff;
+      border-color: #183153;
+    }
+    .alert-info {
+      width: 100%;
+      margin-bottom: -31px;
+      padding: 10px 14px;
+      border-radius: 7px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      text-align: center;
+      background: #eaf6fb;
+      color: #2393cb;
+      border: 1.5px solid #2393cb;
+    }
+    @media (max-width: 900px) {
+      .main-book-wrapper {
+        flex-direction: column;
       }
-      .form-label {
-        font-weight: 500;
+      .sidebar {
+        min-width: 100vw;
+        border-right: none;
+        border-bottom: 2px solid #2393cb;
       }
-      .btn-submit {
-        min-width: 120px;
+      .book-content-area {
+        min-height: 80vh;
       }
-    </style>
-  </head>
-  <body>
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-3 p-0"><%- include('sidebar') %></div>
-        <div class="col-md-9 p-4">          <h4 class="mb-4">Add New Book</h4>
-          
-          <div class="form-container">
-            <% if (msg) { %>
-            <div class="alert alert-info"><%= msg %></div>
-            <% } %>
-            
-            <form action="/books/add" method="POST" enctype="multipart/form-data">
-              <div class="row">
-                <div class="col-md-6 mb-3">
-                  <label class="form-label">Title</label>
-                  <input
-                    type="text"
-                    name="title"
-                    class="form-control"
-                    required
-                  />
-                </div>
-                
-                <div class="col-md-6 mb-3">
-                  <label class="form-label">Author</label>
-                  <input
-                    type="text"
-                    name="author"
-                    class="form-control"
-                    required
-                  />
-                </div>
-
-                <div class="col-md-6 mb-3">
-                  <label class="form-label">Publisher</label>
-                  <input
-                    type="text"
-                    name="publisher"
-                    class="form-control"
-                    required
-                  />
-                </div>
-
-                <div class="col-md-6 mb-3">
-                  <label class="form-label">ISBN</label>
-                  <input
-                    type="text"
-                    name="isbn"
-                    class="form-control"
-                    required
-                  />
-                </div>
-
-                <div class="col-md-6 mb-3">
-                  <label class="form-label">Category</label>
-                  <input
-                    type="text"
-                    name="category"
-                    class="form-control"
-                    required
-                  />
-                </div>
-
-                <div class="col-md-6 mb-3">
-                  <label class="form-label">Total Copies</label>
-                  <input
-                    type="number"
-                    name="total_copies"
-                    class="form-control"
-                    required
-                  />
-                </div>
-
-                <div class="col-md-6 mb-3">
-                  <label class="form-label">Available Copies</label>
-                  <input
-                    type="number"
-                    name="available_copies"
-                    class="form-control"
-                    required
-                  />
-                </div>
-
-                <div class="col-md-6 mb-3">
-                  <label class="form-label">Status</label>
-                  <select name="status" class="form-select" required>
-                    <option value="available">Available</option>
-                    <option value="unavailable">Unavailable</option>
-                  </select>
-                </div>
-
-                <div class="col-12 mb-3">
-                  <label class="form-label">Book Image</label>
-                  <input
-                    type="file"
-                    name="image"
-                    class="form-control"
-                    accept="image/*"
-                  />
-                </div>
-              </div>
-
-              <div class="mt-4">
-                <button type="submit" class="btn btn-primary btn-submit">Add Book</button>
-                <a href="/books/view" class="btn btn-secondary ms-2">Cancel</a>
-              </div>
-            </form>
-          </div>
-        </div>
+      .book-card {
+        min-width: 90vw;
+        max-width: 98vw;
+        padding: 18px 8px;
+      }
+    }
+  </style>
+  <meta charset="UTF-8" />
+  <title>Add Book</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="add-book-page-wrapper">
+    <div class="sidebar">
+      <%- include('sidebar') %>
+    </div>
+    <div class="add-book-content-area">
+      <div class="book-card">
+        <h2>Add New Book</h2>
+        <% if (msg) { %>
+        <div class="alert alert-info"><%= msg %></div>
+        <% } %>
+       <form class="lms-form" action="/books/add" method="POST" enctype="multipart/form-data">
+  <div class="lms-form-row">
+    <div class="lms-form-group">
+      <label>Title</label>
+      <input type="text" name="title" required />
+    </div>
+    <div class="lms-form-group">
+      <label>Author</label>
+      <input type="text" name="author" required />
+    </div>
+  </div>
+  <div class="lms-form-row">
+    <div class="lms-form-group">
+      <label>Publisher</label>
+      <input type="text" name="publisher" required />
+    </div>
+    <div class="lms-form-group">
+      <label>ISBN</label>
+      <input type="text" name="isbn" required />
+    </div>
+  </div>
+  <div class="lms-form-row">
+    <div class="lms-form-group">
+      <label>Category</label>
+      <input type="text" name="category" required />
+    </div>
+    <div class="lms-form-group">
+      <label>Total Copies</label>
+      <input type="number" name="total_copies" required />
+    </div>
+  </div>
+  <div class="lms-form-row">
+    <div class="lms-form-group">
+      <label>Available Copies</label>
+      <input type="number" name="available_copies" required />
+    </div>
+    <div class="lms-form-group">
+      <label>Status</label>
+      <select name="status" required>
+        <option value="available">Available</option>
+        <option value="unavailable">Unavailable</option>
+      </select>
+    </div>
+  </div>
+  <div class="lms-form-row">
+    <div class="lms-form-group" style="width:100%">
+      <label>Book Image</label>
+      <input type="file" name="image" accept="image/*" />
+    </div>
+  </div>
+  <div class="add-book-btn-row">
+    <button type="submit" class="btn lms-btn" style="margin: 0 auto; display: block;">Add Book</button>
+  </div>
+</form>
       </div>
     </div>
-  </body>
+  </div>
+</body>
 </html>

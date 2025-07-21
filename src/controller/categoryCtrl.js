@@ -7,14 +7,15 @@ exports.getAllCategories = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = 5;
 
-    const categories = await categoryService.getCategoriesWithSearch(query, page, limit);
+    // Get paginated categories and total count
+    const { categories, total } = await categoryService.getCategoriesWithSearch(query, page, limit);
+    const totalPages = Math.ceil(total / limit) || 1;
 
     res.render("viewCategories", {
       categories,
       query,
       currentPage: page,
-      prevPage: page > 1 ? page - 1 : null,
-      nextPage: page + 1,
+      totalPages,
       error: null
     });
   } catch (err) {
@@ -23,25 +24,36 @@ exports.getAllCategories = async (req, res) => {
       categories: [],
       query: req.query.q || "",
       currentPage: 1,
-      prevPage: null,
-      nextPage: 2,
+      totalPages: 1,
       error: err.message || "Error fetching categories"
     });
   }
 };
 
 exports.showAddForm = (req, res) => {
-  res.render("addCategory");
+  res.render("addCategory", { error: null, oldName: "" });
 };
 
 exports.addCategory = async (req, res) => {
   try {
     const { name } = req.body;
-    await categoryService.addCategory(name);
+    if (!name || !name.trim()) {
+      return res.render("addCategory", { error: "Category name is required.", oldName: name });
+    }
+    // Only allow letters and spaces (no numbers or symbols)
+    const valid = /^[A-Za-z ]+$/;
+    if (!valid.test(name.trim())) {
+      return res.render("addCategory", { error: "Category name must contain only letters and spaces (no numbers or symbols).", oldName: name });
+    }
+    // Disallow 'null' (case-insensitive)
+    if (name.trim().toLowerCase() === 'null') {
+      return res.render("addCategory", { error: "Category name cannot be 'null'.", oldName: name });
+    }
+    await categoryService.addCategory(name.trim());
     res.redirect("/categories/view");
   } catch (err) {
     console.error("Error adding category:", err);
-    res.status(500).send("Error adding category");
+    res.render("addCategory", { error: "Error adding category: " + err.message, oldName: req.body.name });
   }
 };
 exports.updateCategory = async (req, res) => {

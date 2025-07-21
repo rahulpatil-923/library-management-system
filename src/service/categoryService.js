@@ -7,16 +7,25 @@ exports.addCategory = async (name) => {
 
 exports.getCategoriesWithSearch = async (query, page = 1, limit = 5) => {
   const offset = (page - 1) * limit;
-  let sql = "SELECT * FROM categories";
+  let where = "";
   let params = [];
   if (query) {
-    sql += " WHERE name LIKE ?";
+    where = "WHERE name LIKE ?";
     params.push(`%${query}%`);
   }
-  sql += " LIMIT ? OFFSET ?";
-  params.push(limit, offset);
-  const [results] = await db.query(sql, params);
-  return results;
+  // Get total count
+  const [countRows] = await db.query(
+    `SELECT COUNT(*) as cnt FROM categories ${where}`,
+    params
+  );
+  const total = countRows[0].cnt;
+
+  // Get paginated categories
+  const [rows] = await db.query(
+    `SELECT * FROM categories ${where} ORDER BY id DESC LIMIT ? OFFSET ?`,
+    [...params, limit, offset]
+  );
+  return { categories: rows, total };
 };
 
 exports.getCategoryById = async (id) => {
