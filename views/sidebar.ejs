@@ -1,30 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"></script>
+</head>
+<body>
+ 
+
+  <!-- Sidebar (ul/li, modern, clean, icons, collapsible) -->
 <div class="sidebar">
   <h4>Admin Dashboard</h4>
-  <div class="menu-section" id="studentSection">
-    <h5 onclick="toggleMenu('studentMenu')">👨‍🎓 Student</h5>
-    <ul id="studentMenu">
-      <li><a href="/user/register">Add Student</a></li>
-      <li><a href="/user/view">View Students</a></li>
-    </ul>
-  </div>
-  <div class="menu-section" id="categorySection">
-    <h5 onclick="toggleMenu('categoryMenu')">📚 Category</h5>
-    <ul id="categoryMenu">
-      <li>Add Category</li>
-      <li>View Categories</li>
-    </ul>
-  </div>
-  <div class="menu-section" id="bookSection">
-    <h5 onclick="toggleMenu('bookMenu')">📖 Book</h5>
-    <ul id="bookMenu">
-      <li>Add Book</li>
-      <li>View Books</li>
-    </ul>
-  </div>
+  <ul>
+    <li>
+      <a href="#" onclick="toggleMenu('userMenu'); return false;"><i class="fa fa-user"></i> User <span style="margin-left:auto;">&#9662;</span></a>
+      <ul id="userMenu" style="display:none; margin-left:18px;">
+        <li><a href="/user/register"><i class="fa fa-user-plus"></i> Add User</a></li>
+        <li><a href="/user/view"><i class="fa fa-users"></i> View Users</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#" onclick="toggleMenu('categoryMenu'); return false;"><i class="fa fa-list"></i> Category <span style="margin-left:auto;">&#9662;</span></a>
+      <ul id="categoryMenu" style="display:none; margin-left:18px;">
+        <li><a href="/categories/add"><i class="fa fa-plus-square"></i> Add Category</a></li>
+        <li><a href="/categories/view"><i class="fa fa-th-list"></i> View Categories</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#" onclick="toggleMenu('bookMenu'); return false;"><i class="fa fa-book"></i> Book <span style="margin-left:auto;">&#9662;</span></a>
+      <ul id="bookMenu" style="display:none; margin-left:18px;">
+        <li><a href="/books/add"><i class="fa fa-plus"></i> Add Book</a></li>
+        <li><a href="/books/view"><i class="fa fa-book-open"></i> View Books</a></li>
+      </ul>
+    </li>
+    <li><a href="/issued-books/issue"><i class="fa fa-arrow-circle-right"></i> Issue Book</a></li>
+    <li><a href="/issued-books/view"><i class="fa fa-archive"></i> Issued Books</a></li>
+    <li><a href="/returned-books/view"><i class="fa fa-undo"></i> Returned Books</a></li>
+    <li style="margin-top:30px;"><a href="/login" class="btn btn-danger" style="width:90%;display:flex;align-items:center;gap:10px;"><i class="fa fa-sign-out-alt"></i> Logout</a></li>
+  </ul>
 </div>
 <script>
-  function toggleMenu(id) {
-    const menu = document.getElementById(id);
-    menu.classList.toggle("active");
-  }
+function toggleMenu(id) {
+  const menu = document.getElementById(id);
+  // Only one menu open at a time
+  ['userMenu','categoryMenu','bookMenu'].forEach(function(mid){
+    if(mid!==id) document.getElementById(mid).style.display='none';
+  });
+  menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+}
+document.addEventListener('DOMContentLoaded',function(){
+  ['userMenu','categoryMenu','bookMenu'].forEach(function(mid){
+    document.getElementById(mid).style.display='none';
+  });
+});
 </script>
+
+</body>
+</html>

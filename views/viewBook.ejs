@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>All Books</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/style.css" />
+  <style>
+    .books-card {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 8px 24px rgba(35,147,203,0.13);
+      border: 2px solid #2393cb;
+      padding: 24px 32px 36px 32px;
+      max-width: 1000px;
+      margin: 36px auto 24px auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .books-heading {
+      color: #183153;
+      font-size: 2rem;
+      font-weight: 800;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>All Books</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/style.css" />
+  <style>
+    body {
+      background: linear-gradient(120deg, #fafdff 60%, #eaf6fb 100%);
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+      overflow-x: hidden;
+    }
+    .main-books-wrapper {
+      display: flex;
+      min-height: 100vh;
+      width: 100vw;
+      background: none;
+    }
+    .sidebar {
+      min-width: 220px;
+      background: linear-gradient(135deg, #2393cb 0%, #183153 100%);
+      border-right: 2px solid #2393cb;
+      box-shadow: 0 2px 12px rgba(35,147,203,0.08);
+      z-index: 2;
+    }
+    .books-content-area {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding: 0 0 0 0;
+      background: none;
+    }
+    .books-card {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(35,147,203,0.13);
+      border: 2.5px solid #2393cb;
+      padding: 32px 32px 28px 32px;
+      margin: 36px auto 24px auto;
+      max-width: 1200px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 220px;
+    }
+    .books-card h2 {
+      color: #183153;
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 18px;
+      text-align: center;
+      letter-spacing: 1px;
+      width: 100%;
+    }
+    .search-bar {
+      width: 100%;
+      max-width: 380px;
+      margin: 0 auto 24px auto;
+      display: flex;
+      flex-direction: row;
+      gap: 12px;
+      align-items: center;
+      justify-content: center;
+    }
+    .search-bar input {
+      flex: 1;
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: 1.2px solid #2393cb;
+      font-size: 1rem;
+      background: #f8fafd;
+      outline: none;
+      transition: border 0.2s;
+    }
+    .search-bar input:focus {
+      border: 2px solid #183153;
+    }
+    .search-bar button {
+      background: linear-gradient(90deg, #2393cb 60%, #1e6fa7 100%);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 18px;
+      font-size: 1rem;
+      font-weight: 700;
+      transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+      box-shadow: 0 2px 8px rgba(35,147,203,0.10);
+      letter-spacing: 0.2px;
+      cursor: pointer;
+    }
+    .books-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(35,147,203,0.07);
+      background: #f8fafd;
+    }
+    .books-table th {
+      background: #183153;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 10px 6px;
+      text-align: center;
+      border-bottom: 2px solid #2393cb;
+    }
+    .books-table td {
+      text-align: center;
+      padding: 10px 6px;
+      border-bottom: 1px solid #b2d6ee;
+      font-size: 1.01rem;
+      background: #fff;
+      vertical-align: middle;
+    }
+    .books-table tr:nth-child(even) td {
+      background: #f8fafd;
+    }
+    .book-image {
+      width: 48px;
+      height: 48px;
+      object-fit: cover;
+      border-radius: 7px;
+      border: 1.5px solid #2393cb;
+      box-shadow: 0 1px 4px #eaf6fb;
+    }
+    .action-btn {
+      background: #ffc107;
+      color: #183153;
+      border: none;
+      border-radius: 7px;
+      padding: 7px 18px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      box-shadow: 0 1px 4px #eaf6fb;
+    }
+    .action-btn:hover {
+      background: #ffb300;
+      color: #fff;
+    }
+    .pagination {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      align-items: center;
+      margin-top: 18px;
+    }
+    .pagination button {
+      background: #2393cb;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 18px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .pagination button:disabled {
+      background: #b2d6ee;
+      color: #fff;
+      cursor: not-allowed;
+    }
+    .pagination button:not(:disabled):hover {
+      background: #183153;
+    }
+    @media (max-width: 1200px) {
+      .books-card {
+        max-width: 98vw;
+        padding: 18px 2vw 18px 2vw;
+      }
+    }
+    @media (max-width: 900px) {
+      .main-books-wrapper {
+        flex-direction: column;
+      }
+      .sidebar {
+        min-width: 100vw;
+        border-right: none;
+        border-bottom: 2px solid #2393cb;
+      }
+      .books-content-area {
+        padding: 0 0 0 0;
+      }
+      .books-card {
+        max-width: 99vw;
+        padding: 10px 1vw 10px 1vw;
+      }
+    }
+  </style>
+</head>
+<body>
+  <% const safeCurrentPage = typeof currentPage !== 'undefined' ? currentPage : 1; %>
+  <% const safeTotalPages = typeof totalPages !== 'undefined' ? totalPages : 1; %>
+  <div style="display:flex;min-height:100vh;background:none;">
+    <div class="sidebar">
+      <%- include('sidebar') %>
+    </div>
+    <div style="flex:1;display:flex;align-items:flex-start;justify-content:center;min-height:100vh;background:none;">
+      <div class="books-card" style="background:#fff;border-radius:18px;box-shadow:0 8px 24px rgba(35,147,203,0.13);border:2px solid #2393cb;padding:24px 32px 36px 32px;max-width:1400px;margin:36px auto 24px auto;width:100%;display:flex;flex-direction:column;align-items:center;">
+        <h2 class="books-heading" style="color:#183153;font-size:2.4rem;font-weight:800;margin-bottom:18px;text-align:center;letter-spacing:1px;width:100%;">All Books</h2>
+        <form class="search-bar" method="GET" action="/books/view" style="width:100%;max-width:380px;margin:0 auto 24px auto;display:flex;flex-direction:row;gap:12px;align-items:center;justify-content:center;">
+          <input type="text" name="q" placeholder="Search books..." value="<%= typeof query !== 'undefined' ? query : '' %>" style="flex:1;padding:8px 12px;border-radius:6px;border:1.2px solid #2393cb;font-size:1rem;background:#f8fafd;outline:none;transition:border 0.2s;" />
+          <button type="submit" style="background:linear-gradient(90deg,#2393cb 60%,#1e6fa7 100%);color:#fff;border:none;border-radius:6px;padding:8px 18px;font-size:1rem;font-weight:700;transition:background 0.2s,box-shadow 0.2s,transform 0.1s;box-shadow:0 2px 8px rgba(35,147,203,0.10);letter-spacing:0.2px;cursor:pointer;">Search</button>
+        </form>
+        <table class="books-table" style="width:98%;border-collapse:collapse;margin-top:12px;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(35,147,203,0.07);">
+          <thead>
+            <tr style="background:#183153;color:#fff;font-size:1rem;font-weight:700;">
+              <th style="padding:8px 6px;">#</th>
+              <th style="padding:8px 6px;">Title</th>
+              <th style="padding:8px 6px;">Author</th>
+              <th style="padding:8px 6px;">Publisher</th>
+              <th style="padding:8px 6px;">ISBN</th>
+              <th style="padding:8px 6px;">Category</th>
+              <th style="padding:8px 6px;">Total Copies</th>
+              <th style="padding:8px 6px;">Available Copies</th>
+              <th style="padding:8px 6px;">Status</th>
+              <th style="padding:8px 6px;">Image</th>
+              <th style="padding:8px 6px;">Added On</th>
+              <th style="padding:8px 6px;">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (books && books.length > 0) { %>
+              <% books.forEach(function(book, idx) { %>
+                <tr>
+                  <td><%= (safeCurrentPage-1)*5 + idx + 1 %></td>
+                  <td><%= book.title %></td>
+                  <td><%= book.author %></td>
+                  <td><%= book.publisher %></td>
+                  <td><%= book.isbn %></td>
+                  <td><%= book.category %></td>
+                  <td><%= book.total_copies %></td>
+                  <td><%= book.available_copies %></td>
+                  <td><%= book.status %></td>
+                  <td>
+                    <% if (book.image) { %>
+                      <img src="/public/uploads/<%= book.image %>" alt="Book Image" style="width:48px;height:48px;object-fit:cover;border-radius:7px;border:1.5px solid #2393cb;box-shadow:0 1px 4px #eaf6fb;" />
+                    <% } else { %>
+                      <span style="color:#b2b2b2;">No Image</span>
+                    <% } %>
+                  </td>
+                  <td><%= book.added_on ? book.added_on.toISOString().slice(0,10) : '' %></td>
+                  <td>
+                    <a href="/books/update/<%= book.id %>" style="background:#ffc107;color:#183153;border:none;border-radius:7px;padding:7px 18px;font-weight:700;font-size:1rem;cursor:pointer;text-decoration:none;box-shadow:0 1px 4px #eaf6fb;">Update</a>
+                  </td>
+                </tr>
+              <% }); %>
+            <% } else { %>
+              <tr><td colspan="12" style="text-align:center;color:#b2b2b2;">No books found.</td></tr>
+            <% } %>
+          </tbody>
+        </table>
+        <div class="pagination" style="display:flex;gap:12px;justify-content:center;align-items:center;margin-top:18px;">
+          <form method="GET" action="/books/view" style="display:inline;">
+            <input type="hidden" name="q" value="<%= typeof query !== 'undefined' ? query : '' %>" />
+            <button type="submit" name="page" value="<%= safeCurrentPage-1 %>" <%= safeCurrentPage <= 1 ? 'disabled' : '' %> style="background:#2393cb;color:#fff;border:none;border-radius:6px;padding:6px 18px;font-size:1rem;font-weight:700;cursor:pointer;">Previous</button>
+          </form>
+          <span style="font-weight:600;color:#183153;">Page <%= safeCurrentPage %> of <%= safeTotalPages %></span>
+          <form method="GET" action="/books/view" style="display:inline;">
+            <input type="hidden" name="q" value="<%= typeof query !== 'undefined' ? query : '' %>" />
+            <button type="submit" name="page" value="<%= safeCurrentPage+1 %>" <%= safeCurrentPage >= safeTotalPages ? 'disabled' : '' %> style="background:#2393cb;color:#fff;border:none;border-radius:6px;padding:6px 18px;font-size:1rem;font-weight:700;cursor:pointer;">Next</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+        gap: 6px;
+      }
+      .books-table {
+        width: 99vw;
+      }
+      .books-table th, .books-table td {
+        padding: 5px 1px;
+        font-size: 0.92rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="add-book-page-wrapper">
+    <div class="sidebar">
+      <%- include('sidebar') %>
+    </div>
+    <div class="books-card">
+      <div class="books-heading">All Books</div>
+      <form class="search-bar" method="get" action="/books/view">
+        <input
+          type="text"
+          name="q"
+          placeholder="Search books..."
+          value="<%= typeof query !== 'undefined' ? query : '' %>"
+        />
+        <button type="submit">Search</button>
+      </form>
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="alert alert-danger text-center"><%= error %></div>
+      <% } %>
+      <div class="table-container">
+        <table class="books-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Title</th>
+              <th>Author</th>
+              <th>Publisher</th>
+              <th>ISBN</th>
+              <th>Category</th>
+              <th>Total Copies</th>
+              <th>Available Copies</th>
+              <th>Status</th>
+              <th>Image</th>
+              <th>Added On</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (typeof books !== 'undefined' && books.length > 0) { %>
+              <% books.forEach(function(book, idx) { %>
+                <tr>
+                  <td><%= idx + 1 %></td>
+                  <td><%= book.title %></td>
+                  <td><%= book.author %></td>
+                  <td><%= book.publisher %></td>
+                  <td><%= book.isbn %></td>
+                  <td><%= book.category %></td>
+                  <td><%= book.total_copies %></td>
+                  <td><%= book.available_copies %></td>
+                  <td><%= book.status %></td>
+                  <td>
+                    <% if (book.image) { %>
+                      <img src="/<%= book.image %>" alt="Book Image" class="book-image" />
+                    <% } else { %>
+                      N/A
+                    <% } %>
+                  </td>
+                  <td><%= book.created_at ? book.created_at.toISOString().slice(0,10) : '' %></td>
+                  <td>
+                    <a href="/books/update/<%= book.id %>" class="action-btn">Update</a>
+                  </td>
+                </tr>
+              <% }) %>
+            <% } else { %>
+              <tr>
+                <td colspan="12" class="text-center">No books found.</td>
+              </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

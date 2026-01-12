@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>update Category</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="edit-category-container">
+    <h1>✏️ Update Category</h1>
+
+    <form method="POST" action="/categories/edit/<%= category.id %>">
+      <label>Category Name:</label>
+      <input type="text" name="name" value="<%= category.name %>" required />
+      <button type="submit">Update</button>
+      <a href="/categories/view">Cancel</a>
+    </form>
+<% if (typeof msg !== 'undefined' && msg) { %>
+  <p><%= msg %></p>
+<% } %>
+  </div>
+</body>
+</html>

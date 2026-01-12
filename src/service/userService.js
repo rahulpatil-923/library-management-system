@@ -1,75 +1,77 @@
 const db = require("../config/db");
+const bcrypt = require('bcryptjs');
 
-exports.addUser = ({ name, email, password, role }) => {
-  return new Promise((resolve, reject) => {
-    const sql =
-      "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)";
-    db.query(sql, [name, email, password, role], (err, result) => {
-      if (err) return reject(err);
-      resolve(result);
-    });
-  });
+exports.getAllStudents = async () => {
+  const [rows] = await db.query("SELECT * FROM users WHERE role = 'user'");
+  return rows;
 };
 
-exports.getAllStudents = () => {
-  return new Promise((resolve, reject) => {
-    db.query("SELECT * FROM users WHERE role ", (err, results) => {
-      if (err) return reject(err);
-      resolve(results);
-    });
-  });
+exports.searchStudents = async (keyword) => {
+  const searchTerm = `%${keyword}%`;
+  const [rows] = await db.query(
+    "SELECT * FROM users WHERE role = 'user' AND (name LIKE ? OR email LIKE ?)",
+    [searchTerm, searchTerm]
+  );
+  return rows;
 };
 
-exports.getAllStudentsPaginated = ({ query, limit, offset }) => {
-  return new Promise((resolve, reject) => {
-    let sql = "SELECT SQL_CALC_FOUND_ROWS * FROM users WHERE role";
-    let params = [];
-    if (query) {
-      sql +=
-        " AND (name LIKE ? OR email LIKE ? OR password LIKE ? OR role LIKE ?)";
-      const likeQuery = `%${query}%`;
-      params.push(likeQuery, likeQuery, likeQuery, likeQuery);
-    }
-    sql += " LIMIT ? OFFSET ?";
-    params.push(Number(limit), Number(offset));
-    db.query(sql, params, (err, results) => {
-      if (err) return reject(err);
-      db.query("SELECT FOUND_ROWS() as total", (err2, totalRows) => {
-        if (err2) return reject(err2);
-        resolve({ students: results, total: totalRows[0].total });
-      });
-    });
-  });
+// Fetch user by ID
+exports.getUserById = async (id) => {
+  const [rows] = await db.query("SELECT * FROM users WHERE id = ?", [id]);
+  return rows[0];
 };
 
-exports.getStudentById = (id) => {
-  return new Promise((resolve, reject) => {
-    db.query("SELECT * FROM users WHERE id = ?", [id], (err, results) => {
-      if (err) return reject(err);
-      resolve(results[0]);
-    });
-  });
+// Update user by ID
+exports.updateUser = async (id, userData) => {
+  const { name, email, role } = userData;
+  await db.query(
+    "UPDATE users SET name = ?, email = ?, role = ? WHERE id = ?",
+    [name, email, role, id]
+  );
 };
 
-exports.updateStudent = (id, data) => {
-  return new Promise((resolve, reject) => {
-    const { name, email, password, role } = data;
-    db.query(
-      "UPDATE users SET name=?, email=?, password=?, role=? WHERE id=?",
-      [name, email, password, role, id],
-      (err, result) => {
-        if (err) return reject(err);
-        resolve(result);
-      }
-    );
-  });
+// Add user
+exports.addUser = async ({ name, email, password, role }) => {
+  const hashedPassword = await bcrypt.hash(password, 10);
+  await db.query(
+    "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)",
+    [name, email, hashedPassword, role]
+  );
 };
 
-exports.deleteStudent = (id) => {
-  return new Promise((resolve, reject) => {
-    db.query("DELETE FROM users WHERE id = ?", [id], (err, result) => {
-      if (err) return reject(err);
-      resolve(result);
-    });
-  });
+// Delete user by ID
+exports.deleteUser = async (userId) => {
+  await db.query("DELETE FROM users WHERE id = ?", [userId]);
+};
+
+// Check if user has issued books
+exports.hasIssuedBooks = async (userId) => {
+  const [rows] = await db.query("SELECT COUNT(*) as cnt FROM issue_details WHERE issued_by = ?", [userId]);
+  return rows[0].cnt > 0;
+};
+
+exports.getPaginatedUsers = async (query, page, perPage) => {
+  const offset = (page - 1) * perPage;
+  let where = "WHERE role = 'user'";
+  let params = [];
+
+  if (query) {
+    where += " AND (name LIKE ? OR email LIKE ?)";
+
+    params.push(`%${query}%`, `%${query}%`);
+  }
+
+  // Get total count
+  const [countRows] = await db.query(
+    `SELECT COUNT(*) as cnt FROM users ${where}`,
+    params
+  );
+  const total = countRows[0].cnt;
+
+  // Get paginated users
+  const [rows] = await db.query(
+    `SELECT * FROM users ${where} ORDER BY id DESC LIMIT ? OFFSET ?`,
+    [...params, perPage, offset]
+  );
+  return { users: rows, total };
 };

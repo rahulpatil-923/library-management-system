@@ -1,0 +1,56 @@
+<div class="main-category-wrapper">
+  <div class="sidebar"><%- include('sidebar') %></div>
+  <div class="category-content-area">
+    <!-- Existing add category form and content goes here -->
+  </div>
+</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <style>
+    html, body {
+      overflow-x: hidden !important;
+      overflow-y: hidden !important;
+    }
+    .add-category-wrapper {
+      overflow: hidden !important;
+    }
+    .category-content-area {
+      overflow: hidden !important;
+    }
+  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Category</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="add-category-wrapper d-flex align-items-center justify-content-center" style="min-height:100vh;background:#f8f8f9;">
+    <div class="category-card">
+      <h2>Add Category</h2>
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="alert alert-danger"><%= error %></div>
+      <% } %>
+      <form class="lms-form" method="POST" action="/categories/add" onsubmit="return validateCategoryForm();">
+        <label>Category Name</label>
+        <input type="text" name="name" id="categoryName" required value="<%= typeof oldName !== 'undefined' ? oldName : '' %>" />
+        <div id="catErr" style="color:#e74c3c;font-size:0.98rem;margin-bottom:8px;display:none;"></div>
+        <button type="submit" class="btn lms-btn">Add Category</button>
+      </form>
+    </div>
+  </div>
+  <script>
+    function validateCategoryForm() {
+      var name = document.getElementById('categoryName').value.trim();
+      var err = document.getElementById('catErr');
+      if (!name) {
+        err.innerText = "Category name is required.";
+        err.style.display = "block";
+        return false;
+      }
+      err.style.display = "none";
+      return true;
+    }
+  </script>
+</body>
+</html>

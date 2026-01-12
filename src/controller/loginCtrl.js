@@ -1,24 +1,26 @@
-let loginService = require('../service/loginService');
+const db = require("../config/db");
 
-exports.loginCtrl = (req, res) => {
-  res.render("login", { msg: null });
+exports.loginPage = (req, res) => {
+  res.render("login", { error: null });
 };
-exports.postLogin = (req, res) => {
 
-  let { username, password } = req.body;
+exports.handleLogin = (req, res) => {
+  const { email, password } = req.body;
 
-  if (!username || !password) {
-    return res.render("login", { msg: "Please enter both username and password." });
-  }
+  const query = "SELECT * FROM users WHERE email = ?";
+  db.query(query, [email], (err, results) => {
+    if (err) return res.status(500).send("Server error");
+    if (results.length === 0) {
+      return res.render("login", { error: "Invalid email or password" });
+    }
 
-
-  let user = loginService.logLogic(username, password);
-
-  if (user) {
-
-    return res.redirect('/adminDashboard');
-  } else {
-  
-    return res.render("login", { msg: "Invalid username or password." });
-  }
+    const user = results[0];
+    // Note: You should hash and compare passwords properly in real apps
+    if (user.password === password) {
+      // ✅ Login successful → Redirect to Admin Dashboard (with sidebar)
+      res.redirect("/admin/dashboard");
+    } else {
+      res.render("login", { error: "Invalid email or password" });
+    }
+  });
 };

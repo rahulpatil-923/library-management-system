@@ -1,14 +1,22 @@
-let express = require("express");
-let loginCtrl = require("../controller/loginCtrl.js");
-let router = express.Router();
+// routes/loginRouts.js
+const express = require("express");
+const router = express.Router();
+const loginService = require("../service/loginService");
 
-
-router.get("/", (req, res) => {
-  res.render("homepage");
+router.get("/login", (req, res) => {
+  res.render("login", { error: null });
 });
 
+router.post("/login", (req, res) => {
+  const { email, password } = req.body;
+  const isValidUser = loginService.logLogic(email, password);
 
-router.get("/login", loginCtrl.loginCtrl);
-router.post("/login", loginCtrl.postLogin);
+  if (isValidUser) {
+    return res.redirect("/adminDashboard");
+  } else {
+    console.log(JSON.stringify({ message: "Invalid email or password" }));
+    return res.render("login", { error: "Username or password is incorrect" });
+  }
+});
 
 module.exports = router;

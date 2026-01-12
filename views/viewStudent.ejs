@@ -1,140 +1,374 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>View all Students</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="/style.css" />
-    <style>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View all Users</title>
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    body {
+      background: linear-gradient(120deg, #ffffff 0%, #ffffff 100%);
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+    }
+    .users-content-area {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 8vh;
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2px 0 2px 0;
+    }
+    .user-table-container {
+      width: 100%;
+      max-width: 700px;
+      background: #fff;
+      border-radius: 22px;
+      box-shadow: 0 12px 36px rgba(35,147,203,0.18);
+      border: 2.5px solid #2393cb;
+      padding: 38px 38px 38px 38px;
+      margin: 32px auto 24px auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: box-shadow 0.2s, border 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .user-table-container:before {
+      content: '';
+      position: absolute;
+      top: -60px; left: -60px;
+      width: 180px; height: 180px;
+      background: radial-gradient(circle, #2393cb33 60%, transparent 100%);
+      z-index: 0;
+      border-radius: 50%;
+      opacity: 0.5;
+    }
+    .user-table-container:after {
+      content: '';
+      position: absolute;
+      bottom: -60px; right: -60px;
+      width: 180px; height: 180px;
+      background: radial-gradient(circle, #2393cb33 60%, transparent 100%);
+      z-index: 0;
+      border-radius: 50%;
+      opacity: 0.5;
+    }
+    .users-content-area h2 {
+      color: #183153;
+      font-size: 2.3rem;
+      font-weight: 900;
+      margin-bottom: 18px;
+      text-align: center;
+      letter-spacing: 1.5px;
+      text-shadow: 0 2px 12px #eaf6fb;
+      position: relative;
+      z-index: 1;
+    }
+    .lms-form {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      width: 100%;
+      max-width: 400px;
+    }
+    .lms-form input[type="text"] {
+      border: 1.5px solid #2393cb;
+      border-radius: 7px;
+      padding: 8px 12px;
+      font-size: 1rem;
+      background: #f8fafd;
+      outline: none;
+      transition: border 0.2s;
+      box-shadow: 0 1px 0 #eaf6fb;
+    }
+    .lms-form input[type="text"]:focus {
+      border: 2px solid #183153;
+    }
+    .btn.lms-btn, .btn {
+      background: linear-gradient(90deg, #2393cb 60%, #1e6fa7 100%);
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      padding: 8px 18px;
+      font-size: 1.08rem;
+      font-weight: 700;
+      transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+      box-shadow: 0 2px 8px rgba(35,147,203,0.13);
+      min-width: 80px;
+      letter-spacing: 0.2px;
+      cursor: pointer;
+    }
+    .btn.lms-btn:hover, .btn:hover {
+      background: linear-gradient(90deg, #183153 60%, #2393cb 100%);
+      color: #fff;
+      transform: translateY(-1px) scale(1.02);
+      box-shadow: 0 3px 12px rgba(35,147,203,0.15);
+    }
+    .btn-edit {
+      background: #ffc107 !important;
+      color: #183153 !important;
+      min-width: 38px !important;
+      max-width: 44px !important;
+      padding: 6px 0 !important;
+      font-size: 1rem;
+      margin-right: 4px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(255,193,7,0.10);
+      border: 1.5px solid #ffe082;
+      transition: background 0.18s, color 0.18s;
+    }
+    .btn-edit:hover {
+      background: #ffd54f !important;
+      color: #183153 !important;
+    }
+    .btn-delete {
+      background: #e74c3c !important;
+      color: #fff !important;
+      min-width: 38px !important;
+      max-width: 44px !important;
+      padding: 6px 0 !important;
+      font-size: 1rem;
+      margin-right: 4px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(231,76,60,0.10);
+      border: 1.5px solid #ffb3a7;
+      transition: background 0.18s, color 0.18s;
+    }
+    .btn-delete:hover {
+      background: #ff6659 !important;
+      color: #fff !important;
+    }
+    .btn-edit i, .btn-delete i {
+      margin-right: 0;
+    }
+    .student-table {
+      width: 100%;
+      background: #f8fafd;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 0;
+      border: 2.5px solid #2393cb;
+      box-shadow: 0 2px 16px rgba(35,147,203,0.10);
+      font-size: 1.08rem;
+      transition: box-shadow 0.2s;
+      position: relative;
+      z-index: 1;
+    }
+    .student-table th {
+      background: linear-gradient(90deg, #2393cb 60%, #1e6fa7 100%);
+      color: #fff;
+      font-weight: 800;
+      text-align: center;
+      padding: 16px 10px;
+      border: 1.5px solid #2393cb;
+      font-size: 1.18rem;
+      letter-spacing: 0.7px;
+      text-shadow: 0 2px 8px #183153;
+    }
+    .student-table td {
+      text-align: center;
+      padding: 14px 10px;
+      border: 1px solid #b2d6ee;
+      background: #f8fafd;
+      font-size: 1.07rem;
+      transition: background 0.18s;
+    }
+    .student-table tr:nth-child(even) td {
+      background: #eaf6fb;
+    }
+    .student-table tr:hover td {
+      background: #d0eafc;
+    }
+    .student-table td:last-child {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 32px;
+      gap: 0px;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+    .pagination form {
+      margin: 0;
+    }
+    .pagination button {
+      border-radius: 0;
+      background: linear-gradient(90deg, #2393cb 60%, #1e6fa7 100%);
+      color: #fff;
+      border: none;
+      padding: 10px 38px;
+      font-weight: 800;
+      font-size: 1.15rem;
+      box-shadow: 0 2px 12px rgba(35,147,203,0.13);
+      min-width: 80px;
+      letter-spacing: 0.3px;
+      cursor: pointer;
+      outline: none;
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    }
+    .pagination button:disabled {
+      background: #b2d6ee;
+      color: #fff;
+      cursor: not-allowed;
+    }
+    .pagination form:first-child button {
+      border-top-left-radius: 8px;
+      border-bottom-left-radius: 8px;
+    }
+    .pagination form:last-child button {
+      border-top-right-radius: 8px;
+      border-bottom-right-radius: 8px;
+    }
+    .pagination button:not(:disabled):hover {
+      background: linear-gradient(90deg, #183153 60%, #2393cb 100%);
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(35,147,203,0.18);
+      transform: translateY(-1px) scale(1.03);
+    }
+    /* Responsive */
+    @media (max-width: 1200px) {
+      .user-table-container {
+        max-width: 98vw;
+        padding: 18px 6px;
+      }
+      .users-content-area {
+        max-width: 98vw;
+        padding: 30px 0 20px 0;
+      }
+      
+    }
+    @media (max-width: 900px) {
+      .user-table-container {
+        max-width: 98vw;
+        padding: 16px 6px;
+      }
       .student-table {
-        width: 100%;
-        border-collapse: collapse;
-        background: #fff;
+        max-width: 98vw;
       }
-      .student-table th,
-      .student-table td {
-        border: 3px solid #000;
-        text-align: center;
-        padding: 8px;
+    }
+    @media (max-width: 600px) {
+      .user-table-container {
+        padding: 8px 2px;
       }
-      .student-table th {
-        background: #f8f9fa;
-        font-weight: bold;
+      .student-table {
+        font-size: 0.95rem;
       }
-      .student-table td {
-        font-size: 1rem;
-      }
-      .action-link {
-        color: #007bff;
-        cursor: pointer;
-        text-decoration: underline;
-      }
-      .action-link:hover {
-        color: #dc3545;
-      }
-      .pagination {
-        justify-content: center;
-      }
-      .search-box {
-        max-width: 350px;
-        margin-bottom: 20px;
-      }
-    </style>
-  </head>
-  <body>
-    <%- include('navbar') %>
-    <div class="container-fluid mt-4">
-      <h4 class="mb-4">View all Students</h4>
-      <form class="d-flex search-box" method="get" action="/user/view">
-        <input
-          class="search-box"
-          type="search"
-          name="q"
-          placeholder="Search by any keyword..."
-          value="<%= typeof query !== 'undefined' ? query : '' %>"
-        />
-        <button class="btn btn-outline-primary" type="submit">Search</button>
-      </form>
-      <div class="table-responsive">
-        <table class="student-table">
+    }
+  </style>
+</head>
+<body>
+  <div class="main-users-wrapper">
+    <div class="sidebar"><%- include('sidebar') %></div>
+    <div class="users-content-area">
+      <div class="user-table-container">
+        <h2>All Users</h2>
+        <% if (typeof msg !== 'undefined' && msg) { %>
+          <div class="alert alert-info" id="msgAlert"><%= msg %></div>
+        <% } %>
+        <form class="lms-form d-flex flex-row align-items-center" method="GET" action="/user/view" style="max-width:400px;gap:10px;" onsubmit="return validateSearch();">
+          <input type="text" name="q" id="searchUser" placeholder="Search user..." value="<%= typeof query !== 'undefined' ? query : '' %>" class="form-control" />
+          <button type="submit" class="btn lms-btn">Search</button>
+        </form>
+        <div id="searchErr" style="color:#e74c3c;font-size:0.98rem;margin-bottom:8px;display:none;"></div>
+        <!-- Pagination Controls (Top) removed -->
+        <!-- User Count Display -->
+        <div style="text-align:right; width:100%; font-size:1rem; color:#2393cb; margin-bottom:8px;">
+          <% if (totalUsers > 0) { %>
+            Showing <%= (currentPage-1)*5+1 %> - <%= Math.min(currentPage*5, totalUsers) %> of <%= totalUsers %> users
+          <% } %>
+        </div>
+        <table class="table student-table mt-4">
           <thead>
             <tr>
-              <th>sr. no.</th>
+              <th>#</th>
               <th>Name</th>
-              <th>Email / Username</th>
-              <th>Password</th>
+              <th>Email</th>
               <th>Role</th>
-              <th>Admission Date</th>
-              <th>Update</th>
-              <th>Delete</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            <% students.forEach(function(student, idx) { %>
-            <tr>
-              <td><%= (page - 1) * limit + idx + 1 %></td>
-              <td><%= student.name %></td>
-              <td><%= student.email %></td>
-              <td><%= student.password %></td>
-              <td><%= student.role %></td>
-              <td>
-                <%= student.created_at ?
-                student.created_at.toISOString().slice(0,10) : '' %>
-              </td>
-              <td>
-                <a href="/user/update/<%= student.id %>" class="action-link"
-                  >update</a
-                >
-              </td>
-              <td>
-                <a
-                  href="/user/delete/<%= student.id %>"
-                  class="action-link"
-                  onclick="return confirm('Are you sure you want to delete this student?');"
-                  >delete</a
-                >
-              </td>
-            </tr>
-            <% }) %>
+            <% if (users && users.length) { %>
+              <% users.forEach(function(user, idx) { %>
+                <tr>
+                  <td><%= (currentPage-1)*5 + idx + 1 %></td>
+                  <td><%= user.name %></td>
+                  <td><%= user.email %></td>
+                  <td><%= user.role %></td>
+                  <td>
+                    <a href="/user/update/<%= user.id %>" class="btn btn-warning btn-edit" title="Edit"><i class="fa fa-edit"></i></a>
+                    <a href="/user/delete/<%= user.id %>" class="btn btn-danger btn-delete" title="Delete" onclick="return confirm('Are you sure?')"><i class="fa fa-trash"></i></a>
+                  </td>
+                </tr>
+              <% }) %>
+            <% } else { %>
+              <tr><td colspan="5">No users found.</td></tr>
+            <% } %>
           </tbody>
         </table>
+        <!-- Pagination Controls (Bottom only) -->
+        <% if (totalPages > 1) { %>
+        <div class="pagination mt-4" style="justify-content:center; gap:0px;">
+          <form method="GET" action="/user/view" style="display:inline;">
+            <input type="hidden" name="page" value="<%= currentPage-1 %>" />
+            <% if (query) { %>
+              <input type="hidden" name="q" value="<%= query %>" />
+            <% } %>
+            <button class="btn" <%= currentPage === 1 ? 'disabled' : '' %>>Previous</button>
+          </form>
+          <form method="GET" action="/user/view" style="display:inline;">
+            <input type="hidden" name="page" value="<%= currentPage+1 %>" />
+            <% if (query) { %>
+              <input type="hidden" name="q" value="<%= query %>" />
+            <% } %>
+            <button class="btn" <%= currentPage === totalPages ? 'disabled' : '' %>>Next</button>
+          </form>
+        </div>
+        <% } %>
       </div>
-      <!-- Pagination -->
-      <nav aria-label="Page navigation">
-        <ul class="pagination mt-4">
-          <% if (page > 1) { %>
-          <li class="page-item">
-            <a class="page-link" href="?q=<%= query %>&page=<%= page - 1 %>"
-              >Previous</a
-            >
-          </li>
-          <% } else { %>
-          <li class="page-item disabled">
-            <span class="page-link">Previous</span>
-          </li>
-          <% } %> <% for (let i = 1; i <= totalPages; i++) { %>
-          <li class="page-item <%= i === page ? 'active' : '' %>">
-            <a class="page-link" href="?q=<%= query %>&page=<%= i %>"
-              ><%= i %></a
-            >
-          </li>
-          <% } %> <% if (page < totalPages) { %>
-          <li class="page-item">
-            <a class="page-link" href="?q=<%= query %>&page=<%= page + 1 %>"
-              >Next</a
-            >
-          </li>
-          <% } else { %>
-          <li class="page-item disabled">
-            <span class="page-link">Next</span>
-          </li>
-          <% } %>
-        </ul>
-      </nav>
     </div>
-  </body>
+  </div>
+  <script>
+    function validateSearch() {
+      var val = document.getElementById('searchUser').value.trim();
+      var err = document.getElementById('searchErr');
+      if (val === "") {
+        err.innerText = "Please enter a search term.";
+        err.style.display = "block";
+        return false;
+      }
+      err.style.display = "none";
+      return true;
+    }
+    // Hide the message after 2 seconds
+    window.onload = function () {
+      const msgAlert = document.getElementById("msgAlert");
+      if (msgAlert) {
+        setTimeout(() => {
+          msgAlert.style.display = "none";
+        }, 2000);
+      }
+    };
+  </script>
+</body>
 </html>

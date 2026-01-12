@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Update Book</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/style.css" />
+    <style>
+      .form-container {
+        background: #fff;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      .form-label {
+        font-weight: 500;
+      }
+      .btn-submit {
+        min-width: 120px;
+      }
+      .current-image {
+        max-width: 100px;
+        border-radius: 4px;
+        margin-top: 10px;
+      }
+      .page-heading {
+        text-align: center;
+        margin-bottom: 1.5rem;
+      }
+      .button-container {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-3 p-0"><%- include('sidebar') %></div>
+        <div class="col-md-9 p-4">
+          <h4 class="page-heading">Update Book</h4>
+          
+          <div class="form-container">
+            <% if (msg) { %>
+            <div class="alert alert-info"><%= msg %></div>
+            <% } %>
+            
+            <form action="/books/update/<%= book.id %>" method="POST" enctype="multipart/form-data">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Title</label>
+                  <input
+                    type="text"
+                    name="title"
+                    class="form-control"
+                    value="<%= book.title %>"
+                    required
+                  />
+                </div>
+                
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Author</label>
+                  <input
+                    type="text"
+                    name="author"
+                    class="form-control"
+                    value="<%= book.author %>"
+                    required
+                  />
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Publisher</label>
+                  <input
+                    type="text"
+                    name="publisher"
+                    class="form-control"
+                    value="<%= book.publisher %>"
+                    required
+                  />
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">ISBN</label>
+                  <input
+                    type="text"
+                    name="isbn"
+                    class="form-control"
+                    value="<%= book.isbn %>"
+                    required
+                  />
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Category</label>
+                  <input
+                    type="text"
+                    name="category"
+                    class="form-control"
+                    value="<%= book.category %>"
+                    required
+                  />
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Total Copies</label>
+                  <input
+                    type="number"
+                    name="total_copies"
+                    class="form-control"
+                    value="<%= book.total_copies %>"
+                    required
+                  />
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Available Copies</label>
+                  <input
+                    type="number"
+                    name="available_copies"
+                    class="form-control"
+                    value="<%= book.available_copies %>"
+                    required
+                  />
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Status</label>
+                  <select name="status" class="form-select" required>
+                    <option value="available" <%= book.status === 'available' ? 'selected' : '' %>>Available</option>
+                    <option value="unavailable" <%= book.status === 'unavailable' ? 'selected' : '' %>>Unavailable</option>
+                  </select>
+                </div>
+
+                <div class="col-12 mb-3">
+                  <label class="form-label">Book Image</label>
+                  <input
+                    type="file"
+                    name="image"
+                    class="form-control"
+                    accept="image/*"
+                  />
+                  <% if (book.image) { %>
+                  <img src="/<%= book.image %>" alt="Current Book Image" class="current-image mt-2" />
+                  <% } %>
+                </div>
+              </div>
+
+              <div class="mt-4 button-container">
+                <button type="submit" class="btn btn-primary btn-submit">Update Book</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

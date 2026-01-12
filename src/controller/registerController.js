@@ -1,19 +1,28 @@
 const conn = require('../config/db');
+const bcrypt = require("bcrypt");
 
-// Show Add Student form
-exports.renderAddStudent = (req, res) => {
-  res.render('addStudent');
+// Show Add User form
+exports.renderAddUser = (req, res) => {
+  res.render('addUser');
 };
 
 // Handle form submission
-exports.handleAddStudent = (req, res) => {
+exports.handleAddUser = (req, res) => {
   const { name, email, password, role } = req.body;
-  const sql = 'INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)';
-  conn.query(sql, [name, email, password, role], (err, result) => {
+
+  bcrypt.hash(password, 10, (err, hashedPassword) => {
     if (err) {
       console.error(err);
-      return res.status(500).send('Error registering student');
+      return res.status(500).send('Error encrypting password');
     }
-    res.redirect('/adminDashboard');
+
+    const sql = 'INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)';
+    conn.query(sql, [name, email, hashedPassword, role], (err, result) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).send('Error adding user');
+      }
+      res.redirect('/user/view');
+    });
   });
 };
